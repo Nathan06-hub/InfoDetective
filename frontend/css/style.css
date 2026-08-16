@@ -732,6 +732,141 @@ img { max-width: 100%; display: block; }
     margin-top: 6px;
 }
 
+/* Comic Speech Bubble Attachment Card */
+.comic-attachment-container {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+.comic-attachment-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    border-radius: var(--radius-md);
+    padding: 8px 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px #000000;
+    transition: all 0.2s ease;
+    text-align: left;
+    user-select: none;
+}
+.comic-attachment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 4px 0px #000000;
+    background: #FFFBEB;
+}
+.attachment-thumbnail-wrap {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1E293B;
+    flex-shrink: 0;
+    border: 1px solid #000000;
+}
+.attachment-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.attachment-zoom-icon {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 10px;
+    background: rgba(0,0,0,0.65);
+    border-radius: 3px;
+    padding: 1px 3px;
+    line-height: 1;
+}
+.attachment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+.attachment-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #D97706;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.attachment-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0F172A;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.attachment-cta {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #2563EB;
+}
+
+/* Lightbox Fullscreen Image Inspector */
+.lightbox-modal-content {
+    background: var(--bg-card);
+    border: 2px solid var(--gold);
+    border-radius: var(--radius-lg);
+    width: 92vw;
+    max-width: 650px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1001;
+    overflow: hidden;
+    padding: 16px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+    animation: modalPop 0.25s ease-out;
+}
+.lightbox-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 12px;
+    padding-right: 32px;
+}
+.lightbox-title {
+    color: var(--gold);
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0;
+}
+.lightbox-hint {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+.lightbox-img-wrapper {
+    width: 100%;
+    max-height: 70vh;
+    overflow: auto;
+    border-radius: 8px;
+    background: #0B1120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+}
+.lightbox-img-wrapper img {
+    max-width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
 /* Bottom Round Input Bar */
 .chat-input-bar {
     display: none;

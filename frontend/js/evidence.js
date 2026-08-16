@@ -95,7 +95,7 @@ const Evidence = (() => {
         
         const imgSrc = ev.imageUrl || ev.content_url || (ev.content && (ev.content.startsWith('http') || ev.content.endsWith('.png') || ev.content.endsWith('.jpg') || ev.content.startsWith('/static/images/') || ev.content.startsWith('images/')) ? ev.content : null);
         if (imgSrc) {
-            document.getElementById('modal-evidence-image').innerHTML = `<div style="text-align:center; padding:8px 0;"><img src="${imgSrc}" alt="${ev.title}" style="max-width:100%; max-height:380px; border-radius:8px; object-fit:contain; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border:1px solid var(--border-color); display:block; margin:0 auto;" /></div>`;
+            document.getElementById('modal-evidence-image').innerHTML = `<div style="text-align:center; padding:8px 0;"><img src="${imgSrc}" alt="${ev.title}" style="max-width:100%; max-height:380px; border-radius:8px; object-fit:contain; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border:1px solid var(--border-color); display:block; margin:0 auto; cursor:pointer;" onclick="if(typeof Chat!=='undefined'&&Chat.openEvidenceLightbox) Chat.openEvidenceLightbox('${imgSrc}', '${(ev.title||'').replace(/'/g, "\\'")}')" title="Cliquer pour agrandir en plein écran" /></div>`;
         } else {
             document.getElementById('modal-evidence-image').innerHTML = (ev.content || '').replace(/\n/g, '<br>');
         }

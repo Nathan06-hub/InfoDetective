@@ -32,6 +32,7 @@ const Chat = (() => {
         // Initial intro text animation
         setBubbleText(openingMessage, true);
         updateClueTracker();
+        renderVisualAttachment();
 
         // Wire hint button
         const hintBtn = document.getElementById('btn-request-hint');
@@ -560,6 +561,72 @@ const Chat = (() => {
         return bestScore >= 2 ? bestMatch : null;
     }
 
+    function renderVisualAttachment() {
+        const container = document.getElementById('comic-attachment-container');
+        if (!container || !currentCase || !currentCase.evidence) return;
+
+        // Trouver la première preuve visuelle (image ou capture)
+        const visualEv = currentCase.evidence.find(ev => {
+            const src = ev.imageUrl || ev.content_url || ev.content;
+            return src && (typeof src === 'string') && (
+                src.endsWith('.png') || src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.webp') ||
+                src.startsWith('images/') || src.startsWith('/static/images/') || src.startsWith('http')
+            );
+        });
+
+        if (!visualEv) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+            return;
+        }
+
+        const imgSrc = visualEv.imageUrl || visualEv.content_url || visualEv.content;
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
+        const badgeLabel = isEn ? '📎 RECEIVED ATTACHMENT' : '📎 PIÈCE JOINTE REÇUE';
+        const ctaLabel = isEn ? 'Click to inspect in high-res 🔍' : 'Cliquer pour examiner en grand 🔍';
+
+        container.style.display = 'block';
+        container.innerHTML = `
+            <div class="comic-attachment-card" id="btn-inspect-attachment" role="button" tabindex="0" title="${ctaLabel}">
+                <div class="attachment-thumbnail-wrap">
+                    <img src="${imgSrc}" alt="${visualEv.title}" class="attachment-thumb-img" />
+                    <span class="attachment-zoom-icon">🔍</span>
+                </div>
+                <div class="attachment-info">
+                    <span class="attachment-badge">${badgeLabel}</span>
+                    <span class="attachment-title">${visualEv.title}</span>
+                    <span class="attachment-cta">${ctaLabel}</span>
+                </div>
+            </div>
+        `;
+
+        const btn = document.getElementById('btn-inspect-attachment');
+        if (btn) {
+            btn.onclick = () => openEvidenceLightbox(imgSrc, visualEv.title);
+        }
+    }
+
+    function openEvidenceLightbox(imgSrc, title) {
+        const modal = document.getElementById('image-lightbox-modal');
+        const img = document.getElementById('lightbox-img');
+        const titleEl = document.getElementById('lightbox-title');
+        if (!modal || !img) return;
+
+        img.src = imgSrc;
+        if (titleEl && title) titleEl.textContent = title;
+        modal.hidden = false;
+        modal.style.display = 'flex';
+    }
+
+    function closeEvidenceLightbox() {
+        const modal = document.getElementById('image-lightbox-modal');
+        if (modal) {
+            modal.hidden = true;
+            modal.style.display = 'none';
+        }
+    }
+
     function handleFreeTextInput() {
         const input = document.getElementById('chat-input');
         const text = input.value.trim();
@@ -578,7 +645,22 @@ const Chat = (() => {
                 if (e.key === 'Enter') handleFreeTextInput();
             });
         }
+
+        // Lightbox close events
+        const lbClose = document.getElementById('lightbox-close');
+        if (lbClose) lbClose.addEventListener('click', closeEvidenceLightbox);
+
+        const lbBackdrop = document.getElementById('lightbox-backdrop');
+        if (lbBackdrop) lbBackdrop.addEventListener('click', closeEvidenceLightbox);
     });
 
-    return { init, handlePlayerQuestion, setWitnessExpression, getAskedCount: () => askedCategories.length };
+    return { 
+        init, 
+        handlePlayerQuestion, 
+        setWitnessExpression, 
+        getAskedCount: () => askedCategories.length,
+        renderVisualAttachment,
+        openEvidenceLightbox,
+        closeEvidenceLightbox
+    };
 })();

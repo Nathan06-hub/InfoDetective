@@ -174,6 +174,7 @@
             <div class="comic-bubble-wrapper">
                 <div class="comic-speech-bubble">
                     <p id="comic-bubble-text" data-i18n="chat-loading">Chargement de l'interrogatoire...</p>
+                    <div id="comic-attachment-container" class="comic-attachment-container" style="display:none;"></div>
                 </div>
                 <div class="comic-bubble-pointer"></div>
             </div>
@@ -440,6 +441,21 @@
         <span data-i18n="nav-profile">Profil</span>
     </button>
 </nav>
+
+<!-- Lightbox Zoom Modal for Chat Visual Evidence -->
+<div id="image-lightbox-modal" class="modal" hidden>
+    <div class="modal-backdrop" id="lightbox-backdrop"></div>
+    <div class="lightbox-modal-content">
+        <button class="modal-close" id="lightbox-close">&times;</button>
+        <div class="lightbox-header">
+            <h3 id="lightbox-title" class="lightbox-title" data-i18n="lightbox-title-default">Pièce à conviction</h3>
+            <span class="lightbox-hint" data-i18n="lightbox-hint">🔍 Défilez ou zoomez pour inspecter chaque détail de la capture</span>
+        </div>
+        <div class="lightbox-img-wrapper" id="lightbox-img-wrapper">
+            <img id="lightbox-img" src="" alt="Pièce à conviction" />
+        </div>
+    </div>
+</div>
 
 <script src="js/api.js?v=20260815_v12"></script>
 <script src="js/translations.js?v=20260815_v12"></script>
