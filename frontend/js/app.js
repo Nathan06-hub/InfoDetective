@@ -389,12 +389,15 @@ const App = (() => {
 
         if (tabName === 'home') {
             showScreen('screen-home');
+            updatePageLanguage();
             renderCaseGrid();
         } else if (tabName === 'trophies') {
             showScreen('screen-trophies');
+            updatePageLanguage();
             try { updateTrophiesAndStats(); } catch(e) { console.error(e); }
         } else if (tabName === 'profile') {
             showScreen('screen-profile');
+            updatePageLanguage();
             try { loadProfileScreenData(); } catch(e) { console.error(e); }
         }
     }
