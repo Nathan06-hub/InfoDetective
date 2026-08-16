@@ -8,10 +8,10 @@ const API = (() => {
         const customUrl = localStorage.getItem('infodetective_api_url');
         if (customUrl) return customUrl.replace(/\/$/, '');
         
-        if (window.location.port === '8000') {
+        // Si nous sommes dans le navigateur avec un domaine (Render, local, etc.)
+        if (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin.startsWith('http')) {
             return window.location.origin;
         }
-        // Si servi depuis un autre serveur local (ex: Live Server 5500 ou file://)
         return 'http://localhost:8000';
     };
 

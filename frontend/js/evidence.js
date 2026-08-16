@@ -96,9 +96,14 @@ const Evidence = (() => {
         const rawSrc = ev.imageUrl || ev.content_url || (ev.content && (ev.content.startsWith('http') || ev.content.endsWith('.png') || ev.content.endsWith('.jpg') || ev.content.includes('images/')) ? ev.content : null);
         if (rawSrc) {
             const imgSrc = (rawSrc.startsWith('http') || rawSrc.startsWith('/')) ? rawSrc : '/' + rawSrc;
-            document.getElementById('modal-evidence-image').innerHTML = `<div style="text-align:center; padding:8px 0;"><img src="${imgSrc}" alt="${ev.title}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='/static'+this.getAttribute('src');}" style="max-width:100%; max-height:380px; border-radius:8px; object-fit:contain; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border:1px solid var(--border-color); display:block; margin:0 auto; cursor:pointer;" onclick="if(typeof Chat!=='undefined'&&Chat.openEvidenceLightbox) Chat.openEvidenceLightbox('${imgSrc}', '${(ev.title||'').replace(/'/g, "\\'")}')" title="Cliquer pour agrandir en plein écran" /></div>`;
+            const hintText = lang === 'en' ? '🔍 Click to view and zoom in full screen' : '🔍 Cliquer pour examiner en grand et zoomer';
+            document.getElementById('modal-evidence-image').innerHTML = `
+                <div class="evidence-image-preview-wrap" onclick="if(typeof Chat!=='undefined'&&Chat.openEvidenceLightbox) Chat.openEvidenceLightbox('${imgSrc}', '${(ev.title||'').replace(/'/g, "\\'")}')" title="${hintText}">
+                    <img src="${imgSrc}" alt="${ev.title}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='/static'+this.getAttribute('src');}" class="evidence-preview-img" />
+                    <span class="evidence-zoom-hint">${hintText}</span>
+                </div>`;
         } else {
-            document.getElementById('modal-evidence-image').innerHTML = (ev.content || '').replace(/\n/g, '<br>');
+            document.getElementById('modal-evidence-image').innerHTML = `<div class="evidence-text-doc">${(ev.content || '').replace(/\n/g, '<br>')}</div>`;
         }
         
         document.getElementById('modal-evidence-description').textContent = ev.description;

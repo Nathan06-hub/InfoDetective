@@ -69,22 +69,23 @@ class GeminiService:
             if is_en:
                 sys_instruction = (
                     f"{system_prompt}\n"
-                    f"CRITICAL BEHAVIOR & LANGUAGE RULES:\n"
-                    f"1. YOU MUST ANSWER ENTIRELY IN ENGLISH. DO NOT USE FRENCH.\n"
-                    f"2. CURRENT MOOD: {chosen_temperament}.\n"
-                    f"3. CASE REFOCUS: No matter what the detective asks (even if off-topic like weather or food), react briefly in character then ALWAYS bring the conversation back to the case and your evidence!\n"
-                    f"4. FORMAT: Ultra-short SMS/WhatsApp style (1 to 2 simple sentences MAXIMUM). Always complete your sentences."
+                    f"CRITICAL BEHAVIOR & WITNESS RULES:\n"
+                    f"1. YOU ARE THE WITNESS, NOT THE INVESTIGATOR. You genuinely believe the news or are reacting to what you experienced. You DO NOT know it is fake or manipulated, and you DO NOT point out mistakes or scams on your own unless the detective explicitly asks you about them!\n"
+                    f"2. YOU MUST ANSWER ENTIRELY IN ENGLISH. DO NOT USE FRENCH.\n"
+                    f"3. CURRENT MOOD: {chosen_temperament}.\n"
+                    f"4. Direct answer: Answer the detective's question naturally in character (1 to 2 sentences max)."
                 )
             else:
                 sys_instruction = (
                     f"{system_prompt}\n"
-                    f"CONSIGNES STRICTES DE COMPORTEMENT ET RECENTRAGE CHAT :\n"
-                    f"1. TEMPÉRAMENT DU MOMENT : {chosen_temperament}.\n"
-                    f"2. RECENTRAGE OBLIGATOIRE SUR L'AFFAIRE : Peu importe ce que l'enquêteur demande (même si la question est totalement hors-sujet, absurde ou provocatrice comme la météo, la cuisine ou les jeux), réagis brièvement en incarnant ton tempérament puis RAMÈNE TOUJOURS immédiatement la discussion vers l'affaire et tes éléments de preuve !\n"
-                    f"3. FORMAT : Style SMS/WhatsApp ultra-court (1 à 2 phrases simples GRAND MAXIMUM). Termine toujours complètement ta phrase."
+                    f"CONSIGNES STRICTES DE JEU DE RÔLE (TÉMOIN) :\n"
+                    f"1. TU ES LE TÉMOIN, PAS L'ENQUÊTEUR. Tu crois sincèrement à ce que tu as vu/entendu et tu réagis avec tes émotions. Tu ne sais PAS d'avance que c'est une infox et tu ne dois JAMAIS signaler spontanément d'anomalie, de faute ou de falsification sauf si l'enquêteur te pose précisément la question dessus !\n"
+                    f"2. Quand on te demande ce qui se passe ou de raconter, décris simplement la panique ou ce que tu as vu sans donner la solution de l'enquête.\n"
+                    f"3. TEMPÉRAMENT DU MOMENT : {chosen_temperament}.\n"
+                    f"4. FORMAT : Style parlé direct et naturel (1 à 2 phrases simples maximum). Termine toujours complètement ta phrase."
                 )
 
-            models_to_try = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
+            models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
             last_err = None
 
             for model_name in models_to_try:

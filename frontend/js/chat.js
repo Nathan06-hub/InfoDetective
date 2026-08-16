@@ -449,24 +449,30 @@ const Chat = (() => {
         // Case-specific in-character dynamic responses
         if (currentCase && currentCase.number === 1) { // Case 1: Couvre-feu Ouagadougou
             if (isEn) {
+                if (norm.includes('raconte') || norm.includes('happened') || norm.includes('explain') || norm.includes('story') || norm.includes('what is going on')) {
+                    return "It all started this afternoon: a screenshot of an official decree announcing an immediate 5 PM curfew flooded social media. Everyone panicked and rushed to close their shops!";
+                }
                 if (norm.includes('source') || norm.includes('facebook') || norm.includes('page') || norm.includes('where') || norm.includes('who')) {
                     return "I saw it on Facebook on the page 'Minestère de la sécurité'. It had the Prime Ministry seal on it, so everyone in Ouagadougou believed it immediately!";
                 }
-                if (norm.includes('spelling') || norm.includes('typo') || norm.includes('name') || norm.includes('error')) {
+                if (norm.includes('spelling') || norm.includes('typo') || norm.includes('orthographe') || norm.includes('minestere')) {
                     return "Wait... now that you point it out, 'Minestère' has an 'e' in it?! A real government ministry would never misspell its own name!";
                 }
-                if (norm.includes('sig') || norm.includes('government') || norm.includes('official') || norm.includes('true') || norm.includes('fake')) {
+                if (norm.includes('sig') || norm.includes('government') || norm.includes('official') || norm.includes('denial')) {
                     return "The SIG (Government Information Service) announced on national TV that no curfew was ever decreed! The document is a fake!";
                 }
                 return "We closed all market stalls in total panic when we saw the 5 PM curfew order. We just didn't want any trouble with the police!";
             } else {
-                if (norm.includes('source') || norm.includes('facebook') || norm.includes('page') || norm.includes('ou') || norm.includes('qui')) {
+                if (norm.includes('raconte') || norm.includes('passe') || norm.includes('explique') || norm.includes('arrive') || norm.includes('histoire')) {
+                    return "Tout a commencé cet après-midi : une capture d'un prétendu communiqué officiel annonçant un couvre-feu immédiat à 17h a inondé les réseaux. Tout le monde a paniqué et a couru pour fermer boutique !";
+                }
+                if (norm.includes('source') || norm.includes('facebook') || norm.includes('page') || norm.includes('ou avez') || norm.includes('d ou')) {
                     return "J'ai vu ça sur Facebook sur la page 'Minestère de la sécurité'. Il y avait le logo de la Primature, alors tout le monde au grand marché l'a cru immédiatement !";
                 }
-                if (norm.includes('orthographe') || norm.includes('faute') || norm.includes('nom') || norm.includes('erreur') || norm.includes('e')) {
+                if (norm.includes('orthographe') || norm.includes('faute') || norm.includes('minestere') || norm.includes('erreur de frappe')) {
                     return "Attendez... maintenant que vous le montrez, 'Minestère' a un 'e' au lieu d'un 'i' ?! Un vrai ministère d'État ne ferait jamais une faute pareille !";
                 }
-                if (norm.includes('sig') || norm.includes('gouvernement') || norm.includes('officiel') || norm.includes('vrai') || norm.includes('faux') || norm.includes('dementi')) {
+                if (norm.includes('sig') || norm.includes('gouvernement') || norm.includes('dementi') || norm.includes('officiel')) {
                     return "Le SIG vient d'annoncer à la télévision nationale qu'aucun couvre-feu n'existe ! Ce document est un faux fabriqué pour semer la terreur.";
                 }
                 return "On a couru pour fermer nos boutiques au marché dès qu'on a vu l'heure de 17h. On avait trop peur d'avoir des problèmes avec la police !";
