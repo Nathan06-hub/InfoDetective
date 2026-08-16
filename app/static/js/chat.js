@@ -153,38 +153,44 @@ const Chat = (() => {
 
         if (unasked.length === 0) {
             hintText = isEn 
-                ? "You have already asked about all the main points! Review your evidence notebook and render your verdict when you're ready."
-                : "Vous avez déjà creusé tous les points essentiels ! Consultez votre carnet de preuves et rendez votre verdict quand vous êtes prêt.";
+                ? "You have already explored all the key facts! Review your evidence notebook and render your verdict when you're ready."
+                : "Vous avez déjà exploré tous les faits essentiels ! Consultez votre carnet de preuves et rendez votre verdict quand vous êtes prêt.";
         } else {
             const targetQ = unasked[0];
             if (isEn) {
                 const enHints = {
-                    'source': `You haven't asked me where I saw this post originally... maybe that's a good place to start?`,
-                    'faute': `Have you looked very carefully at the exact name and spelling of the page that published this?`,
-                    'dementi': `You could check if the official authorities or Government Information Service have responded to this.`,
-                    'message': `Look at the screenshot formatting... did I receive it directly, or was it forwarded from a group?`,
-                    'hopital': `Have you asked whether anyone called the hospital or blood transfusion service to verify?`,
-                    'numero': `There is a phone number listed at the bottom of the screen... what do we really know about it?`,
-                    'chercheur': `You haven't asked about the professor's actual academic field of research yet.`,
-                    'photo': `Look closely at the background of that picture... does it look like a real lab?`,
-                    'stats': `Where do those huge percentage numbers come from? Is there any published study?`,
-                    'audio': `Listen closely: does the speaker in the audio state their identity or position?`
+                    'source': "This post appeared on dozens of groups at once. Everyone claimed it came from a page sporting official government seals...",
+                    'faute': "Thinking back, when I read that Facebook page title on my phone, something looked odd about how it was written... but in the panic I didn't check the spelling closely.",
+                    'dementi': "My neighbor told me he was watching national television earlier... The news anchors were actually discussing this exact press release.",
+                    'message': "Looking closely at the screenshot, the post clearly shows the 'Forwarded many times' tag. It wasn't actually a direct message from my dad...",
+                    'hopital': "A friend studying medicine told me hospital blood banks follow strict official protocols and never rely on WhatsApp chain messages... It made me wonder.",
+                    'numero': "Someone in our group tried dialing that 69689898 number earlier, and their phone credit drained in a few seconds...",
+                    'video': "I first found this video on Twitter, but nobody mentioned an exact city before it went viral on TikTok...",
+                    'lieu': "I wasn't directly on site that morning... but seeing a building collapse made me assume the worst immediately.",
+                    'url': "When I clicked the promo link, the address in the browser bar ended with a strange extension instead of samsung.com...",
+                    'compteur': "I noticed something weird: the 10-minute stock countdown timer restarted from the top as soon as I refreshed the page...",
+                    'paiement': "The website asked for credit card security codes and personal data before even letting me choose a phone model...",
+                    'anomalies': "Listening closely to the audio with headphones, there are unnatural cuts and the voice tone feels almost robotic...",
+                    'audio-origine': "That audio came from an unknown phone number forwarded to me in private messages..."
                 };
-                hintText = enHints[targetQ.id] || `Think about the source, the authenticity of the documents, and whether official channels confirmed this.`;
+                hintText = enHints[targetQ.id] || "Looking back at the whole situation, there are definitely details in the documents and sources that seem unusual.";
             } else {
                 const frHints = {
-                    'source': `Vous ne m'avez pas encore demandé d'où vient cette publication exactement... vous devriez commencer par là !`,
-                    'faute': `Avez-vous bien regardé le nom exact et l'orthographe de la page qui a partagé cette alerte ?`,
-                    'dementi': `Vous devriez vous demander si le gouvernement ou les canaux officiels ont confirmé ou démenti cette histoire.`,
-                    'message': `Regardez la capture WhatsApp... vous êtes sûr que c'est un message direct et pas un transfert anonyme ?`,
-                    'hopital': `Avez-vous pensé à vérifier si l'hôpital ou le centre de transfusion sanguine a réellement lancé cet appel ?`,
-                    'numero': `Il y a un numéro de téléphone affiché en bas de la capture... avez-vous cherché qui se cache derrière ?`,
-                    'chercheur': `Vous ne m'avez pas demandé quelle est la vraie spécialité du professeur à l'université.`,
-                    'photo': `Observez bien le décor de la photo... est-ce que ça ressemble vraiment à un laboratoire ?`,
-                    'stats': `Ces chiffres spectaculaires, d'où sortent-ils au juste ? Y a-t-il une vraie étude ?`,
-                    'audio': `Dans cet enregistrement, la personne donne-t-elle son vrai nom et sa fonction ?`
+                    'source': "Cette publication est apparue sur plein de groupes à la fois. Tout le monde disait que ça venait d'une page avec des logos officiels...",
+                    'faute': "En y repensant, quand j'ai lu le nom de cette page sur mon téléphone, un truc m'a paru bizarre dans la façon dont c'était écrit... mais dans la panique je n'ai pas vérifié l'orthographe.",
+                    'dementi': "Mon voisin m'a dit tout à l'heure qu'il regardait la télévision nationale... Les journalistes parlaient justement de ce communiqué officiel.",
+                    'message': "En regardant bien la capture, le message porte la mention 'Transféré maintes fois'. Ce n'est pas un message direct de mon père en réalité...",
+                    'hopital': "Une amie en école d'infirmière m'a dit que les banques de sang ont des protocoles d'urgence stricts et ne passent jamais par des chaînes WhatsApp... Ça m'a mis le doute.",
+                    'numero': "Quelqu'un dans notre groupe a essayé de composer le numéro 69689898 tout à l'heure, et son forfait s'est vidé en quelques secondes...",
+                    'video': "J'ai trouvé cette vidéo sur Twitter d'abord, mais personne ne mentionnait de ville précise avant que ça n'explose sur TikTok...",
+                    'lieu': "Je n'étais pas sur place ce matin-là... mais voir un immeuble s'effondrer m'a fait penser au pire immédiatement.",
+                    'url': "Quand j'ai cliqué sur le lien de la promo, l'adresse dans la barre du navigateur se terminait par une extension bizarre au lieu de samsung.com...",
+                    'compteur': "J'ai remarqué un truc bizarre : le compte à rebours de 10 minutes est revenu au début dès que j'ai rechargé la page...",
+                    'paiement': "Le site demandait les coordonnées bancaires complètes avant même de choisir la couleur du téléphone...",
+                    'anomalies': "En écoutant bien l'enregistrement avec des écouteurs, il y a des micro-coupures bizarres et la voix semble presque trop mécanique...",
+                    'audio-origine': "Cet audio m'a été envoyé par un numéro inconnu en message privé, sans aucune précision de date ni de lieu..."
                 };
-                hintText = frHints[targetQ.id] || `Posez-moi des questions sur la source, la véracité des documents ou les réactions officielles.`;
+                hintText = frHints[targetQ.id] || "En y réfléchissant bien, il y a des détails dans les documents reçus et les sources qui méritent qu'on y regarde de plus près.";
             }
         }
 

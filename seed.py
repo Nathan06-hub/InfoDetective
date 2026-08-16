@@ -181,7 +181,7 @@ def seed_database(engine_override=None):
                 "witness_name": "Moussa Kaboré",
                 "witness_role_fr": "Commerçant à Ouagadougou",
                 "witness_role_en": "Merchant in Ouagadougou",
-                "witness_avatar": "/static/assets/witnesses/nadege.webp",
+                "witness_avatar": "/static/assets/witnesses/serge.webp",
                 "witness_system_prompt_fr": """Tu incarnes Moussa Kaboré, 36 ans, commerçant au grand marché de Ouagadougou. Tu es paniqué car la page Facebook 'Minestère de la sécurité' a publié un arrêté de la Primature instaurant un couvre-feu à 17h. Tu dois fermer ta boutique précipitamment et tu veux avertir tout le monde, mais tu n'as pas remarqué que le nom de la page comporte une faute d'orthographe ('Minestère' avec un e).""",
                 "witness_system_prompt_en": """You play Moussa Kaboré, 36, shopkeeper in Ouagadougou. You panic because a Facebook page 'Minestère de la sécurité' posted a 5 PM curfew notice.""",
                 "techniques": ["logo-falsifie", "source-non-fiable", "urgence-fabriquee", "appel-peur"],

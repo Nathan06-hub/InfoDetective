@@ -59,7 +59,7 @@ const CASES = [
         brief: 'Sur Facebook, une page nommée "Minestère de la sécurité" a publié la capture d\'un communiqué officiel estampillé Primature du Burkina Faso déclarant un couvre-feu immédiat de 17h à 4h du matin. Les marchés ferment précipitamment, mais une faute d\'orthographe sur le nom de la page attire votre attention.',
         witness: {
             name: 'Moussa Kaboré', age: 36, role: 'Commerçant à Ouagadougou',
-            avatar: 'assets/witnesses/nadege.webp', initials: 'MK', color: '#E8A33D',
+            avatar: 'assets/witnesses/serge.webp', initials: 'MK', color: '#E8A33D',
             personality: 'Paniqué, pressé de fermer sa boutique et d\'avertir ses voisins, n\'a pas pris le temps d\'analyser les détails du document.',
             knows: [
                 'La publication vient de la page Facebook "Minestère de la sécurité", partagée massivement sur Facebook et WhatsApp.',
