@@ -397,12 +397,11 @@ const Chat = (() => {
                 };
 
                 const modelsToTry = [
-                    'gemini-2.5-flash-native',
+                    'gemini-flash-lite-latest',
+                    'gemini-3.1-flash-lite-preview',
+                    'gemini-3.5-flash-lite',
                     'gemini-2.5-flash',
-                    'gemma-4-26b-a4b-it',
-                    'gemma-2-9b-it',
-                    'gemini-2.0-flash',
-                    'gemini-1.5-flash'
+                    'gemma-4-26b-a4b-it'
                 ];
                 for (const modelName of modelsToTry) {
                     try {

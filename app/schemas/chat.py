@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from app.schemas.case import EvidenceRead
 
 class ChatMessageCreate(BaseModel):
-    user_id: Union[int, str]
+    user_id: Optional[Union[int, str]] = 1
     message: str
     lang: Optional[str] = "fr"
 
