@@ -244,6 +244,7 @@ const App = (() => {
         const yearsLabel = lang === 'en' ? 'years old' : 'ans';
         document.getElementById('brief-witness-role').textContent = `${currentCase.witness.age} ${yearsLabel} · ${currentCase.witness.role}`;
 
+        updatePageLanguage();
         showScreen('screen-brief');
     }
 

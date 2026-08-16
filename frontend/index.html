@@ -115,7 +115,7 @@
             <div class="brief-card">
                 <div class="brief-card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    <span>SITUATION</span>
+                    <span data-i18n="brief-situation-label">SITUATION</span>
                 </div>
                 <div class="brief-narrative-body" id="brief-narrative"></div>
             </div>
@@ -124,7 +124,7 @@
             <div class="brief-card witness-card">
                 <div class="brief-card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span>TÉMOIN</span>
+                    <span data-i18n="brief-witness-label">TÉMOIN</span>
                 </div>
                 <div class="witness-card-body">
                     <img class="witness-card-avatar" id="brief-witness-avatar-img" src="" alt="Witness">
@@ -140,14 +140,14 @@
                 <div class="warning-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                 </div>
-                <p class="warning-text">
+                <p class="warning-text" id="brief-warning-text" data-i18n="brief-warning-text">
                     Le témoin s'exprime selon ses propres convictions. Posez vos questions, examinez les indices et rendez votre verdict en identifiant la technique de manipulation présente.
                 </p>
             </div>
 
             <!-- Bottom CTA Button -->
             <button class="btn-golden-primary" id="btn-start-investigation">
-                <span>Ouvrir l'enquête</span>
+                <span data-i18n="btn-start-investigation">Ouvrir l'enquête</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
         </main>
@@ -159,11 +159,11 @@
         <header class="chat-header-bar">
             <button class="btn-back" id="chat-back">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                <span>Brief</span>
+                <span data-i18n="btn-brief-back">Brief</span>
             </button>
             <div class="chat-header-title-clean" id="chat-witness-name">Témoin</div>
             <button class="btn-evidence-badge-top" id="btn-open-evidence-top">
-                <span>Preuves</span>
+                <span data-i18n="chat-evidence-btn">Preuves</span>
                 <span class="evidence-count-chip" id="chat-evidence-count">0</span>
             </button>
         </header>
@@ -173,7 +173,7 @@
             <!-- Large Speech Bubble -->
             <div class="comic-bubble-wrapper">
                 <div class="comic-speech-bubble">
-                    <p id="comic-bubble-text">Chargement de l'interrogatoire...</p>
+                    <p id="comic-bubble-text" data-i18n="chat-loading">Chargement de l'interrogatoire...</p>
                 </div>
                 <div class="comic-bubble-pointer"></div>
             </div>
@@ -191,7 +191,7 @@
             <div class="verdict-cta-wrapper">
                 <button class="btn-golden-primary btn-verdict-cta" id="btn-go-evidence-from-chat">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
-                    <span>Voir les preuves et rendre le verdict</span>
+                    <span data-i18n="btn-go-evidence-chat">Voir les preuves et rendre le verdict</span>
                 </button>
             </div>
         </main>
@@ -202,7 +202,7 @@
                 <input type="text" id="chat-input" placeholder="Discuter avec le témoin..." autocomplete="off">
                 <button class="btn-send-pill" id="btn-send">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    <span>Envoyer</span>
+                    <span data-i18n="btn-send">Envoyer</span>
                 </button>
             </div>
         </footer>
@@ -213,21 +213,21 @@
         <div class="screen-nav-bar">
             <button class="btn-back" id="evidence-back">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                <span>Interrogatoire</span>
+                <span data-i18n="btn-interrogation">Interrogatoire</span>
             </button>
-            <span class="screen-nav-title">CARNET DE PREUVES</span>
+            <span class="screen-nav-title" data-i18n="evidence-title">CARNET DE PREUVES</span>
         </div>
         <main class="evidence-container">
             <div class="evidence-summary-bar">
                 <span class="evidence-icon-svg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
                 </span>
-                <span><strong id="evidence-found-count">0</strong> preuve(s) collectée(s)</span>
+                <span><strong id="evidence-found-count">0</strong> <span data-i18n="evidence-collected-suffix">preuve(s) collectée(s)</span></span>
             </div>
             <div class="evidence-grid" id="evidence-grid"></div>
             <div class="evidence-footer-actions">
-                <button class="btn-outline-navy" id="btn-back-to-chat">← Continuer l'interrogatoire</button>
-                <button class="btn-golden-primary" id="btn-go-verdict">Rendre mon verdict</button>
+                <button class="btn-outline-navy" id="btn-back-to-chat" data-i18n="btn-back-to-chat">← Continuer l'interrogatoire</button>
+                <button class="btn-golden-primary" id="btn-go-verdict" data-i18n="btn-go-verdict">Rendre mon verdict</button>
             </div>
         </main>
     </section>
@@ -251,21 +251,21 @@
         <div class="screen-nav-bar">
             <button class="btn-back" id="verdict-back">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                <span>Preuves</span>
+                <span data-i18n="btn-evidence">Preuves</span>
             </button>
-            <span class="screen-nav-title">VERDICT</span>
+            <span class="screen-nav-title" data-i18n="verdict-heading">VERDICT</span>
         </div>
         <main class="verdict-container">
             <div class="verdict-header-block">
-                <h1 class="verdict-heading">Verdict</h1>
-                <p class="verdict-subheading">
+                <h1 class="verdict-heading" data-i18n="verdict-heading">Verdict</h1>
+                <p class="verdict-subheading" data-i18n="verdict-subheading">
                     Sélectionnez les techniques de manipulation réellement présentes dans ce dossier. Une accusation infondée coûte des points.
                 </p>
             </div>
             <div class="techniques-pill-grid" id="techniques-list"></div>
             <div class="verdict-bottom-actions">
-                <button class="btn-outline-navy" id="btn-back-to-evidence-from-verdict">Revoir les preuves</button>
-                <button class="btn-golden-primary" id="btn-submit-verdict">Valider</button>
+                <button class="btn-outline-navy" id="btn-back-to-evidence-from-verdict" data-i18n="btn-review-evidence">Revoir les preuves</button>
+                <button class="btn-golden-primary" id="btn-submit-verdict" data-i18n="btn-submit-verdict">Valider</button>
             </div>
         </main>
     </section>
