@@ -59,7 +59,7 @@ app.include_router(verdict.router)
 from fastapi.responses import RedirectResponse, FileResponse
 
 # Servir l'application Frontend sur la racine /
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def root_app():
     if os.path.exists("app/static/index.html"):
         return FileResponse("app/static/index.html")
@@ -81,7 +81,7 @@ def favicon():
     from fastapi import Response
     return Response(status_code=204)
 
-@app.get("/api")
+@app.api_route("/api", methods=["GET", "HEAD"])
 def api_info():
     return {
         "message": "Bienvenue sur l'API InfoDetective (UNESCO Youth Hackathon 2026)",
