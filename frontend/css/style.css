@@ -1636,6 +1636,22 @@ img { max-width: 100%; display: block; }
     border-radius: var(--radius-md);
     flex-shrink: 0;
 }
+.btn-outline-danger-sm {
+    background: transparent;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #EF4444;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition);
+    align-self: flex-start;
+}
+.btn-outline-danger-sm:hover {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: #EF4444;
+}
 .api-status-badge {
     font-size: 0.68rem;
     font-weight: 700;

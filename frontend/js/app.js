@@ -118,9 +118,31 @@ const App = (() => {
         }
     }
 
+    function getUnlockedBadgesCount(stats) {
+        if (!stats) stats = Progress.getStats();
+        const allBadges = [
+            { caseNum: 1 }, { caseNum: 2 }, { caseNum: 3 }, { caseNum: 4 }, { caseNum: 5 },
+            { caseNum: 6 }, { caseNum: 7 }, { caseNum: 8 }, { caseNum: 9 }, { caseNum: 10 },
+            { check: () => stats.completedCount >= 1 },
+            { check: () => Object.values(stats.scores || {}).some(s => s >= 100) },
+            { check: () => stats.completedCount >= 5 },
+            { check: () => stats.completedCount >= 10 }
+        ];
+        let count = 0;
+        allBadges.forEach(b => {
+            const isUnlocked = (b.check && b.check()) || (stats.badges && stats.badges.includes(b.name)) || (b.caseNum && stats.completedCount >= b.caseNum);
+            if (isUnlocked) count++;
+        });
+        return count;
+    }
+
     function updateStats() {
-        document.getElementById('badge-count').textContent = Progress.getBadgeCount();
-        document.getElementById('case-completed-count').textContent = Progress.getCompletedCount();
+        const stats = Progress.getStats();
+        const badgeCount = getUnlockedBadgesCount(stats);
+        const badgeCountEl = document.getElementById('badge-count');
+        if (badgeCountEl) badgeCountEl.textContent = badgeCount;
+        const caseCountEl = document.getElementById('case-completed-count');
+        if (caseCountEl) caseCountEl.textContent = stats.completedCount;
     }
 
     /* ---- Render Active Card & Locked Cases List (Lovable Style) ---- */
@@ -674,6 +696,23 @@ const App = (() => {
             toggleLanguage();
             loadProfileScreenData();
         });
+        on('btn-reset-progress', 'click', resetProgress);
+    }
+
+    function resetProgress() {
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const msg = lang === 'en'
+            ? 'Are you sure you want to reset all your progress, solved cases, and unlocked badges?'
+            : 'Voulez-vous vraiment réinitialiser toute votre progression, vos affaires résolues et vos badges ?';
+        if (confirm(msg)) {
+            Progress.reset();
+            updateStats();
+            renderCaseGrid();
+            updateTrophiesAndStats();
+            loadProfileScreenData();
+            showScreen('screen-home');
+            switchTab('home');
+        }
     }
 
     function enhancedInit() {
