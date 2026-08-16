@@ -90,7 +90,7 @@ const App = (() => {
             chatInput.placeholder = UI_TRANSLATIONS[lang]['placeholder-chat'] || (lang === 'en' ? 'Talk to the witness...' : 'Discuter avec le témoin...');
         }
 
-        // Profile input placeholder
+        // Profile Name placeholder
         const profileInput = document.getElementById('profile-name-input');
         if (profileInput) {
             profileInput.placeholder = UI_TRANSLATIONS[lang]['placeholder-profile-name'] || (lang === 'en' ? 'Your detective name...' : 'Votre nom de détective...');
@@ -419,31 +419,146 @@ const App = (() => {
     function updateTrophiesAndStats() {
         const stats = Progress.getStats();
         const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
 
         // Solved count
-        document.getElementById('stat-solved-count').textContent = `${stats.completedCount}/10`;
+        const solvedCountEl = document.getElementById('stat-solved-count');
+        if (solvedCountEl) solvedCountEl.textContent = `${stats.completedCount}/10`;
         
         // Precision score
-        document.getElementById('stat-precision-score').textContent = `${stats.avgScore}%`;
+        const precisionEl = document.getElementById('stat-precision-score');
+        if (precisionEl) precisionEl.textContent = `${stats.avgScore}%`;
 
-        // Badges count
-        document.getElementById('stat-badges-unlocked').textContent = stats.badges.length;
+        // Badges Catalog (10 Case Badges + 4 Challenge Badges = 14 Badges)
+        const allBadges = [
+            { 
+                id: 'case_1', 
+                icon: '📜', 
+                name: isEn ? 'Decree Verifier' : 'Vérificateur d\'Arrêtés', 
+                desc: isEn ? 'Solve Case #1 (Ouagadougou Curfew)' : 'Résolvez le Dossier #1 (Couvre-feu Ouaga)', 
+                caseNum: 1,
+                check: () => stats.completedCount >= 1
+            },
+            { 
+                id: 'case_2', 
+                icon: '❤️', 
+                name: isEn ? 'Fake SOS Detector' : 'Détecteur de Faux SOS', 
+                desc: isEn ? 'Solve Case #2 (Laquintinie Hospital)' : 'Résolvez le Dossier #2 (Hôpital Laquintinie)', 
+                caseNum: 2,
+                check: () => stats.completedCount >= 2
+            },
+            { 
+                id: 'case_3', 
+                icon: '⚡', 
+                name: isEn ? 'Buzz Hunter' : 'Chasseur de Buzz', 
+                desc: isEn ? 'Solve Case #3 (Earthquake Video)' : 'Résolvez le Dossier #3 (Séisme TikTok)', 
+                caseNum: 3,
+                check: () => stats.completedCount >= 3
+            },
+            { 
+                id: 'case_4', 
+                icon: '🛡️', 
+                name: isEn ? 'Anti-Phishing Shield' : 'Bouclier Anti-Phishing', 
+                desc: isEn ? 'Solve Case #4 (Samsung 1€ Promo)' : 'Résolvez le Dossier #4 (Promo Samsung 1€)', 
+                caseNum: 4,
+                check: () => stats.completedCount >= 4
+            },
+            { 
+                id: 'case_5', 
+                icon: '🎙️', 
+                name: isEn ? 'Deepfake Expert' : 'Expert Anti-Deepfake', 
+                desc: isEn ? 'Solve Case #5 (Minister Audio)' : 'Résolvez le Dossier #5 (Audio du Ministre)', 
+                caseNum: 5,
+                check: () => stats.completedCount >= 5
+            },
+            { 
+                id: 'case_6', 
+                icon: '🧪', 
+                name: isEn ? 'Pseudo-Science Tracker' : 'Traqueur de Pseudo-Science', 
+                desc: isEn ? 'Solve Case #6 (BioVital Miracle)' : 'Résolvez le Dossier #6 (BioVital Miracle)', 
+                caseNum: 6,
+                check: () => stats.completedCount >= 6
+            },
+            { 
+                id: 'case_7', 
+                icon: '🏛️', 
+                name: isEn ? 'Heritage Protector' : 'Protecteur du Patrimoine', 
+                desc: isEn ? 'Solve Case #7 (Foumban Excavations)' : 'Résolvez le Dossier #7 (Fouilles Foumban)', 
+                caseNum: 7,
+                check: () => stats.completedCount >= 7
+            },
+            { 
+                id: 'case_8', 
+                icon: '💉', 
+                name: isEn ? 'Health Guard' : 'Gardien de la Santé', 
+                desc: isEn ? 'Solve Case #8 (WHO Vaccination)' : 'Résolvez le Dossier #8 (Vaccination OMS)', 
+                caseNum: 8,
+                check: () => stats.completedCount >= 8
+            },
+            { 
+                id: 'case_9', 
+                icon: '🗺️', 
+                name: isEn ? 'Fact Inspector' : 'Contrôleur de Faits', 
+                desc: isEn ? 'Solve Case #9 (Matadi Bridge Alert)' : 'Résolvez le Dossier #9 (Pont de Matadi)', 
+                caseNum: 9,
+                check: () => stats.completedCount >= 9
+            },
+            { 
+                id: 'case_10', 
+                icon: '📊', 
+                name: isEn ? 'Data Debunker' : 'Démystificateur de Données', 
+                desc: isEn ? 'Solve Case #10 (Goma Eruption Stats)' : 'Résolvez le Dossier #10 (Stats Éruption Goma)', 
+                caseNum: 10,
+                check: () => stats.completedCount >= 10
+            },
+            { 
+                id: 'eagle_eye', 
+                icon: '🎯', 
+                name: isEn ? 'Eagle Eye' : 'Œil de Lynx', 
+                desc: isEn ? 'Solve any case without using hints' : 'Résolvez une enquête sans indice Piste', 
+                check: () => stats.completedCount >= 1 
+            },
+            { 
+                id: 'perfect_detective', 
+                icon: '💯', 
+                name: isEn ? 'Flawless Detective' : 'Sans-Faute Absolu', 
+                desc: isEn ? 'Achieve 100% score on any dossier' : 'Obtenez 100% de score sur un dossier', 
+                check: () => Object.values(stats.scores || {}).some(s => s >= 100) 
+            },
+            { 
+                id: 'veteran_investigator', 
+                icon: '🚀', 
+                name: isEn ? 'Seasoned Investigator' : 'Enquêteur Chevronné', 
+                desc: isEn ? 'Solve at least 5 investigation cases' : 'Résolvez au moins 5 dossiers d\'enquête', 
+                check: () => stats.completedCount >= 5 
+            },
+            { 
+                id: 'master_detective', 
+                icon: '🎓', 
+                name: isEn ? 'Master Detective (UNESCO MIL)' : 'Maître Détective (UNESCO MIL)', 
+                desc: isEn ? 'Complete all 10 investigation cases' : 'Terminez l\'intégralité des 10 dossiers', 
+                check: () => stats.completedCount >= 10 
+            }
+        ];
+
+        let unlockedCount = 0;
+        allBadges.forEach(b => {
+            const isUnlocked = (b.check && b.check()) || stats.badges.includes(b.name) || (b.caseNum && stats.completedCount >= b.caseNum);
+            if (isUnlocked) unlockedCount++;
+        });
+
+        // Badges count in overview card
+        const badgesUnlockedEl = document.getElementById('stat-badges-unlocked');
+        if (badgesUnlockedEl) badgesUnlockedEl.textContent = `${unlockedCount}/${allBadges.length}`;
 
         // Render Badges Gallery
         const container = document.getElementById('badges-gallery-container');
         if (!container) return;
 
-        const allBadges = [
-            { id: 'source_verifier', icon: '🔍', name: lang === 'en' ? 'Source Verifier' : 'Vérificateur de Sources', desc: lang === 'en' ? 'Solve Case #1 with 2+ stars' : 'Résolvez le Dossier #1 avec 2+ étoiles', caseId: 1 },
-            { id: 'buzz_unmasker', icon: '⚡', name: lang === 'en' ? 'Buzz Debunker' : 'Démasqueur de Buzz', desc: lang === 'en' ? 'Solve Case #2 with 2+ stars' : 'Résolvez le Dossier #2 avec 2+ étoiles', caseId: 2 },
-            { id: 'scam_hunter', icon: '🛡️', name: lang === 'en' ? 'Scam Hunter' : 'Chasseur d\'Arnaques', desc: lang === 'en' ? 'Solve Case #3 with 2+ stars' : 'Résolvez le Dossier #3 avec 2+ étoiles', caseId: 3 },
-            { id: 'master_detective', icon: '🎓', name: lang === 'en' ? 'Elite Detective' : 'Détective d\'Élite', desc: lang === 'en' ? 'Complete all 10 investigation cases' : 'Terminez l\'intégralité des 10 dossiers', caseId: 10 }
-        ];
-
-        const unlockedStatus = lang === 'en' ? '✓ Badge Unlocked' : '✓ Badge Obtenu';
+        const unlockedStatus = isEn ? '✓ Badge Unlocked' : '✓ Badge Obtenu';
 
         container.innerHTML = allBadges.map(b => {
-            const isUnlocked = stats.badges.includes(b.name) || stats.completedCount >= b.caseId;
+            const isUnlocked = (b.check && b.check()) || stats.badges.includes(b.name) || (b.caseNum && stats.completedCount >= b.caseNum);
             return `
                 <div class="badge-card ${isUnlocked ? 'unlocked' : 'locked'}">
                     <div class="badge-card-icon">${b.icon}</div>
@@ -458,19 +573,11 @@ const App = (() => {
         const nameInput = document.getElementById('profile-name-input');
         if (nameInput) nameInput.value = name;
 
-        const geminiKey = localStorage.getItem('info_detective_gemini_key') || '';
-        const keyInput = document.getElementById('gemini-key-input');
-        const statusChip = document.getElementById('api-status-chip');
-        
-        if (keyInput) keyInput.value = geminiKey;
-        if (statusChip) {
-            statusChip.textContent = geminiKey ? '● IA Connectée' : 'Mode Standard';
-            statusChip.style.color = geminiKey ? 'var(--success-green)' : 'var(--accent-amber)';
-        }
-
         const langBtn = document.getElementById('btn-lang-toggle-profile');
         const lang = localStorage.getItem('info_detective_lang') || 'fr';
         if (langBtn) langBtn.textContent = lang === 'en' ? 'English (EN)' : 'Français (FR)';
+
+        updatePageLanguage();
     }
 
     function saveProfileName() {

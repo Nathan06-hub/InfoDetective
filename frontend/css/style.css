@@ -1536,13 +1536,26 @@ img { max-width: 100%; display: block; }
     align-items: center;
     text-align: center;
     gap: 8px;
+    transition: all var(--transition);
+}
+.badge-card.unlocked {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 1px solid var(--accent-amber);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
+}
+.badge-card.unlocked .badge-card-name {
+    color: var(--accent-amber);
+}
+.badge-card.unlocked .badge-card-desc {
+    color: #10B981;
+    font-weight: 600;
 }
 .badge-card.locked {
-    opacity: 0.5;
-    filter: grayscale(0.8);
+    opacity: 0.45;
+    filter: grayscale(0.85);
 }
 .badge-card-icon {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
 }
 .badge-card-name {
     font-size: 0.85rem;

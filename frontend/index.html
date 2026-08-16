@@ -346,52 +346,31 @@
     <section id="screen-trophies" class="screen">
         <div class="trophies-container">
             <div class="trophies-header">
-                <h1 class="trophies-title">Trophées & Distinctions</h1>
-                <p class="trophies-subtitle">Collectionnez vos insignes de détective au fil des affaires résolues.</p>
+                <h1 class="trophies-title" data-i18n="trophies-title">Trophées & Distinctions</h1>
+                <p class="trophies-subtitle" data-i18n="trophies-subtitle">Collectionnez vos insignes de détective au fil des affaires résolues.</p>
             </div>
 
             <!-- Stats Overview Card -->
             <div class="stats-overview-card">
                 <div class="stat-item">
                     <span class="stat-val" id="stat-solved-count">0/10</span>
-                    <span class="stat-lbl">Affaires Résolues</span>
+                    <span class="stat-lbl" data-i18n="stat-solved-label">Affaires Résolues</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat-item">
                     <span class="stat-val" id="stat-precision-score">0%</span>
-                    <span class="stat-lbl">Précision Moyenne</span>
+                    <span class="stat-lbl" data-i18n="stat-precision-label">Précision Moyenne</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat-item">
                     <span class="stat-val" id="stat-badges-unlocked">0</span>
-                    <span class="stat-lbl">Badges Débloqués</span>
+                    <span class="stat-lbl" data-i18n="stat-badges-label">Badges Débloqués</span>
                 </div>
             </div>
 
             <!-- Badges Gallery Grid -->
-            <div class="section-badge-grid-title">VOS BADGES DE DÉTECTIVE</div>
-            <div class="badges-gallery-grid" id="badges-gallery-container">
-                <div class="badge-card locked">
-                    <div class="badge-card-icon">🔍</div>
-                    <div class="badge-card-name">Vérificateur de Sources</div>
-                    <div class="badge-card-desc">Résolvez le Dossier #1 avec au moins 2 étoiles</div>
-                </div>
-                <div class="badge-card locked">
-                    <div class="badge-card-icon">⚡</div>
-                    <div class="badge-card-name">Démasqueur de Buzz</div>
-                    <div class="badge-card-desc">Résolvez le Dossier #2 avec au moins 2 étoiles</div>
-                </div>
-                <div class="badge-card locked">
-                    <div class="badge-card-icon">🛡️</div>
-                    <div class="badge-card-name">Chasseur d'Arnaques</div>
-                    <div class="badge-card-desc">Résolvez le Dossier #3 avec au moins 2 étoiles</div>
-                </div>
-                <div class="badge-card locked">
-                    <div class="badge-card-icon">🎓</div>
-                    <div class="badge-card-name">Détective d'Élite</div>
-                    <div class="badge-card-desc">Terminez les 10 dossiers d'enquête</div>
-                </div>
-            </div>
+            <div class="section-badge-grid-title" data-i18n="section-badges-title">VOS BADGES DE DÉTECTIVE</div>
+            <div class="badges-gallery-grid" id="badges-gallery-container"></div>
         </div>
     </section>
 
@@ -399,25 +378,25 @@
     <section id="screen-profile" class="screen">
         <div class="profile-container">
             <div class="profile-header">
-                <h1 class="profile-title">Profil & Paramètres</h1>
-                <p class="profile-subtitle">Personnalisez votre profil et configurez l'intelligence artificielle.</p>
+                <h1 class="profile-title" data-i18n="profile-title">Profil & Paramètres</h1>
+                <p class="profile-subtitle" data-i18n="profile-subtitle">Gérez votre identité de détective et vos préférences.</p>
             </div>
 
             <!-- Profile Name Card -->
             <div class="profile-card">
-                <h3 class="profile-card-title">Identité du Détective</h3>
+                <h3 class="profile-card-title" data-i18n="profile-card-title-id">Identité du Détective</h3>
                 <div class="profile-name-edit-group">
-                    <input type="text" id="profile-name-input" placeholder="Votre nom de détective..." autocomplete="off">
-                    <button id="btn-save-profile-name" class="btn-golden-sm">Enregistrer</button>
+                    <input type="text" id="profile-name-input" placeholder="Votre nom de détective..." data-i18n="placeholder-profile-name" autocomplete="off">
+                    <button id="btn-save-profile-name" class="btn-golden-sm" data-i18n="btn-save-name">Enregistrer</button>
                 </div>
-                <div class="profile-name-saved-msg" id="profile-name-msg" hidden>✓ Pseudo enregistré</div>
+                <div class="profile-name-saved-msg" id="profile-name-msg" data-i18n="profile-name-saved" hidden>✓ Pseudo enregistré</div>
             </div>
 
             <!-- Preferences Card -->
             <div class="profile-card">
-                <h3 class="profile-card-title">Préférences de Jeu</h3>
+                <h3 class="profile-card-title" data-i18n="profile-card-title-pref">Préférences de Jeu</h3>
                 <div class="preference-row">
-                    <span>Langue de l'interface</span>
+                    <span data-i18n="profile-lang-label">Langue de l'interface</span>
                     <button id="btn-lang-toggle-profile" class="lang-pill-btn">Français (FR)</button>
                 </div>
             </div>
