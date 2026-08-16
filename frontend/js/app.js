@@ -696,23 +696,52 @@ const App = (() => {
             toggleLanguage();
             loadProfileScreenData();
         });
-        on('btn-reset-progress', 'click', resetProgress);
+        on('btn-reset-progress', 'click', openResetConfirmModal);
+        on('btn-cancel-reset', 'click', closeResetConfirmModal);
+        on('reset-modal-backdrop', 'click', closeResetConfirmModal);
+        on('btn-confirm-reset-action', 'click', performResetProgress);
     }
 
-    function resetProgress() {
-        const lang = localStorage.getItem('info_detective_lang') || 'fr';
-        const msg = lang === 'en'
-            ? 'Are you sure you want to reset all your progress, solved cases, and unlocked badges?'
-            : 'Voulez-vous vraiment réinitialiser toute votre progression, vos affaires résolues et vos badges ?';
-        if (confirm(msg)) {
-            Progress.reset();
-            updateStats();
-            renderCaseGrid();
-            updateTrophiesAndStats();
-            loadProfileScreenData();
-            showScreen('screen-home');
-            switchTab('home');
+    function openResetConfirmModal() {
+        const modal = document.getElementById('reset-confirm-modal');
+        if (modal) {
+            updatePageLanguage();
+            modal.hidden = false;
         }
+    }
+
+    function closeResetConfirmModal() {
+        const modal = document.getElementById('reset-confirm-modal');
+        if (modal) modal.hidden = true;
+    }
+
+    function showInAppToast(text) {
+        const toast = document.getElementById('in-app-toast');
+        if (!toast) return;
+        toast.textContent = text;
+        toast.hidden = false;
+        // Trigger CSS animation
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => { toast.hidden = true; }, 300);
+        }, 3200);
+    }
+
+    function performResetProgress() {
+        closeResetConfirmModal();
+        Progress.reset();
+        updateStats();
+        renderCaseGrid();
+        updateTrophiesAndStats();
+        loadProfileScreenData();
+        showScreen('screen-home');
+        switchTab('home');
+
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const successMsg = (UI_TRANSLATIONS[lang] && UI_TRANSLATIONS[lang]['reset-toast-success'])
+            || (lang === 'en' ? '✓ Progress reset successfully!' : '✓ Progression réinitialisée avec succès !');
+        showInAppToast(successMsg);
     }
 
     function enhancedInit() {

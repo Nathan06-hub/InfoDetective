@@ -81,7 +81,12 @@ const UI_TRANSLATIONS = {
         'profile-lang-label': 'Langue de l\'interface',
         'profile-card-title-reset': 'Gestion des données',
         'profile-card-desc-reset': 'Réinitialiser vos enquêtes, scores et badges pour recommencer à zéro.',
-        'btn-reset-progress': '🔄 Réinitialiser la progression'
+        'btn-reset-progress': '🔄 Réinitialiser la progression',
+        'reset-modal-title': 'Réinitialiser la progression ?',
+        'reset-modal-desc': 'Toutes vos affaires résolues, vos scores de précision et vos badges débloqués seront définitivement effacés. Cette action est irréversible.',
+        'btn-cancel': 'Annuler',
+        'btn-confirm-reset': 'Oui, tout réinitialiser',
+        'reset-toast-success': '✓ Progression réinitialisée avec succès !'
     },
     'en': {
         'brand-title': 'InfoDetective',
@@ -164,7 +169,12 @@ const UI_TRANSLATIONS = {
         'profile-lang-label': 'Interface Language',
         'profile-card-title-reset': 'Data Management',
         'profile-card-desc-reset': 'Reset your investigations, scores and badges to start fresh.',
-        'btn-reset-progress': '🔄 Reset Investigation Progress'
+        'btn-reset-progress': '🔄 Reset Investigation Progress',
+        'reset-modal-title': 'Reset Investigation Progress?',
+        'reset-modal-desc': 'All your solved cases, accuracy scores, and unlocked badges will be permanently cleared. This action cannot be undone.',
+        'btn-cancel': 'Cancel',
+        'btn-confirm-reset': 'Yes, reset everything',
+        'reset-toast-success': '✓ Progress reset successfully!'
     }
 };
 

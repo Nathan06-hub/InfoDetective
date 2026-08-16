@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260816_v25">
+    <link rel="stylesheet" href="css/style.css?v=20260816_v28">
     <meta name="theme-color" content="#0B0F17">
 </head>
 <body>
@@ -443,14 +443,33 @@
     </div>
 </div>
 
-<script src="js/api.js?v=20260816_v25"></script>
-<script src="js/translations.js?v=20260816_v25"></script>
-<script src="js/data.js?v=20260816_v25"></script>
-<script src="js/data2.js?v=20260816_v25"></script>
-<script src="js/progress.js?v=20260816_v25"></script>
-<script src="js/evidence.js?v=20260816_v25"></script>
-<script src="js/chat.js?v=20260816_v25"></script>
-<script src="js/verdict.js?v=20260816_v25"></script>
-<script src="js/app.js?v=20260816_v25"></script>
+<!-- Custom In-App Reset Confirmation Modal -->
+<div id="reset-confirm-modal" class="modal" hidden>
+    <div class="modal-backdrop" id="reset-modal-backdrop"></div>
+    <div class="custom-confirm-card">
+        <div class="custom-confirm-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <h3 class="custom-confirm-title" data-i18n="reset-modal-title">Réinitialiser la progression ?</h3>
+        <p class="custom-confirm-desc" data-i18n="reset-modal-desc">Toutes vos affaires résolues, vos scores de précision et vos badges débloqués seront définitivement effacés. Cette action est irréversible.</p>
+        <div class="custom-confirm-actions">
+            <button id="btn-cancel-reset" class="btn-cancel-modal" data-i18n="btn-cancel">Annuler</button>
+            <button id="btn-confirm-reset-action" class="btn-danger-modal" data-i18n="btn-confirm-reset">Oui, tout réinitialiser</button>
+        </div>
+    </div>
+</div>
+
+<!-- Custom In-App Notification Toast -->
+<div id="in-app-toast" class="in-app-toast" hidden></div>
+
+<script src="js/api.js?v=20260816_v28"></script>
+<script src="js/translations.js?v=20260816_v28"></script>
+<script src="js/data.js?v=20260816_v28"></script>
+<script src="js/data2.js?v=20260816_v28"></script>
+<script src="js/progress.js?v=20260816_v28"></script>
+<script src="js/evidence.js?v=20260816_v28"></script>
+<script src="js/chat.js?v=20260816_v28"></script>
+<script src="js/verdict.js?v=20260816_v28"></script>
+<script src="js/app.js?v=20260816_v28"></script>
 </body>
 </html>
