@@ -432,52 +432,126 @@ const Chat = (() => {
         const isEn = lang === 'en';
 
         // Check identity direct questions
-        if (norm.includes('nom') || norm.includes('appelles') || norm.includes('name') || norm.includes('who are you') || norm.includes('identity')) {
+        if (norm.includes('nom') || norm.includes('appelles') || norm.includes('name') || norm.includes('who are you') || norm.includes('identite')) {
             return isEn ? `My name is ${w.name}. I work as a ${w.role.toLowerCase()}.` : `Je m'appelle ${w.name}. Je suis ${w.role.toLowerCase()}.`;
         }
-        if (norm.includes('job') || norm.includes('travail') || norm.includes('work') || norm.includes('metier') || norm.includes('profession')) {
+        if (norm.includes('job') || norm.includes('travail') || norm.includes('work') || norm.includes('metier') || norm.includes('profession') || norm.includes('role')) {
             return isEn ? `I work as a ${w.role}. I am ${w.age} years old.` : `Je travaille comme ${w.role}. J'ai ${w.age} ans.`;
         }
 
+        // Case-specific in-character dynamic responses
+        if (currentCase && currentCase.number === 1) { // Case 1: Couvre-feu Ouagadougou
+            if (isEn) {
+                if (norm.includes('source') || norm.includes('facebook') || norm.includes('page') || norm.includes('where') || norm.includes('who')) {
+                    return "I saw it on Facebook on the page 'Minestère de la sécurité'. It had the Prime Ministry seal on it, so everyone in Ouagadougou believed it immediately!";
+                }
+                if (norm.includes('spelling') || norm.includes('typo') || norm.includes('name') || norm.includes('error')) {
+                    return "Wait... now that you point it out, 'Minestère' has an 'e' in it?! A real government ministry would never misspell its own name!";
+                }
+                if (norm.includes('sig') || norm.includes('government') || norm.includes('official') || norm.includes('true') || norm.includes('fake')) {
+                    return "The SIG (Government Information Service) announced on national TV that no curfew was ever decreed! The document is a fake!";
+                }
+                return "We closed all market stalls in total panic when we saw the 5 PM curfew order. We just didn't want any trouble with the police!";
+            } else {
+                if (norm.includes('source') || norm.includes('facebook') || norm.includes('page') || norm.includes('ou') || norm.includes('qui')) {
+                    return "J'ai vu ça sur Facebook sur la page 'Minestère de la sécurité'. Il y avait le logo de la Primature, alors tout le monde au grand marché l'a cru immédiatement !";
+                }
+                if (norm.includes('orthographe') || norm.includes('faute') || norm.includes('nom') || norm.includes('erreur') || norm.includes('e')) {
+                    return "Attendez... maintenant que vous le montrez, 'Minestère' a un 'e' au lieu d'un 'i' ?! Un vrai ministère d'État ne ferait jamais une faute pareille !";
+                }
+                if (norm.includes('sig') || norm.includes('gouvernement') || norm.includes('officiel') || norm.includes('vrai') || norm.includes('faux') || norm.includes('dementi')) {
+                    return "Le SIG vient d'annoncer à la télévision nationale qu'aucun couvre-feu n'existe ! Ce document est un faux fabriqué pour semer la terreur.";
+                }
+                return "On a couru pour fermer nos boutiques au marché dès qu'on a vu l'heure de 17h. On avait trop peur d'avoir des problèmes avec la police !";
+            }
+        }
+
+        if (currentCase && currentCase.number === 2) { // Case 2: Don de sang Laquintinie
+            if (isEn) {
+                if (norm.includes('number') || norm.includes('69689898') || norm.includes('phone') || norm.includes('call') || norm.includes('credit')) {
+                    return "Friends tried calling that 69689898 number: it's a premium-rate number that drains mobile credit the moment you dial! It's a scam.";
+                }
+                if (norm.includes('hospital') || norm.includes('laquintinie') || norm.includes('blood') || norm.includes('bank') || norm.includes('checked')) {
+                    return "I called Laquintinie Hospital's blood bank: they confirmed they NEVER sent out this SOS and their blood reserves are normal!";
+                }
+                if (norm.includes('who') || norm.includes('dad') || norm.includes('father') || norm.includes('whatsapp') || norm.includes('sent') || norm.includes('received')) {
+                    return "Actually, it was a screenshot forwarded into our promo WhatsApp group. It wasn't my real dad messaging me directly!";
+                }
+                return "When you read 'Don't let me die 🙏' with crying emojis, you just want to help right away without questioning the post!";
+            } else {
+                if (norm.includes('numero') || norm.includes('69689898') || norm.includes('telephone') || norm.includes('appeler') || norm.includes('surtaxe') || norm.includes('argent')) {
+                    return "Des amis ont vérifié le numéro 69689898 : c'est un numéro surtaxé qui siphonne tout le crédit dès qu'on appelle ! C'est une arnaque virale.";
+                }
+                if (norm.includes('hopital') || norm.includes('laquintinie') || norm.includes('sang') || norm.includes('banque') || norm.includes('verifie') || norm.includes('appele')) {
+                    return "J'ai appelé la banque de sang de l'hôpital Laquintinie : ils disent qu'ils n'ont JAMAIS émis cet appel et que leurs stocks sont stables !";
+                }
+                if (norm.includes('qui') || norm.includes('papa') || norm.includes('pere') || norm.includes('whatsapp') || norm.includes('recu') || norm.includes('envoye') || norm.includes('transfere')) {
+                    return "En réalité c'est une capture d'écran transférée dans notre groupe de promo avec la mention 'Transféré'. Ce n'est pas mon vrai père qui m'a écrit directement !";
+                }
+                return "Quand on lit 'Ne me laisse pas mourir 🙏' avec les émojis en larmes, on veut sauver une vie immédiatement sans penser à vérifier !";
+            }
+        }
+
+        // Generic character fallback for other cases
         if (isEn) {
             const genericEn = [
-                `Regarding this, I am ${w.name} and I am speaking to you with total honesty based on what I experienced.`,
-                `I am telling you the truth about what happened. Feel free to check the case documents if you have doubts.`,
-                `That is all I know about this story. Look closely at the clues in the case file!`
+                `Regarding your question, I shared this because it looked extremely alarming. Look closely at the clues in the case file!`,
+                `I am telling you honestly what happened. If you check the case documents, you'll see why everyone reacted so fast.`,
+                `That's everything I experienced firsthand. Question the sources and examine the evidence notebook!`
             ];
             return genericEn[Math.floor(Math.random() * genericEn.length)];
         }
 
         const genericLines = [
-            `Concernant cela, je suis ${w.name} et je vous réponds très sincèrement avec ce que je sais.`,
-            "Je vous dis la vérité sur ce que j'ai vécu. Posez-moi d'autres questions sur l'affaire si vous voulez.",
-            "Examinez les pièces du dossier si vous avez un doute, mais je n'ai rien d'autre à ajouter."
+            `Concernant votre question, j'ai relayé cette information parce qu'elle semblait urgente. Regardez bien les indices dans le dossier !`,
+            "Je vous dis sincèrement ce que j'ai vécu. Examinez les pièces du dossier pour voir d'où vient le piège.",
+            "C'est tout ce que j'ai vu passer. Interrogez les sources et vérifiez le carnet de preuves !"
         ];
         return genericLines[Math.floor(Math.random() * genericLines.length)];
     }
 
     function matchByKeywords(text) {
+        if (!currentCase || !currentCase.questions) return null;
+
         const normalized = text.toLowerCase()
             .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
             .replace(/[^a-z0-9\s]/g, ' ');
-        const words = normalized.split(/\s+/).filter(w => w.length > 2);
+        const words = normalized.split(/\s+/).filter(w => w.length >= 2);
 
         let bestMatch = null;
         let bestScore = 0;
 
         for (const q of currentCase.questions) {
-            if (askedCategories.includes(q.id)) continue;
             let score = 0;
+            // 1. Check keyword overlap
             for (const word of words) {
-                for (const kw of q.keywords) {
+                for (const kw of (q.keywords || [])) {
                     const kwNorm = kw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-                    if (word.includes(kwNorm) || kwNorm.includes(word)) score++;
+                    if (word === kwNorm) {
+                        score += 3;
+                    } else if (word.length >= 4 && (word.includes(kwNorm) || kwNorm.includes(word))) {
+                        score += 2;
+                    }
                 }
             }
-            if (score > bestScore) { bestScore = score; bestMatch = q; }
+
+            // 2. Check overlap with suggested questions
+            for (const sug of (q.suggested || [])) {
+                const sugNorm = sug.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                for (const word of words) {
+                    if (word.length >= 4 && sugNorm.includes(word)) {
+                        score += 1;
+                    }
+                }
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMatch = q;
+            }
         }
 
-        return bestScore >= 1 ? bestMatch : null;
+        return bestScore >= 2 ? bestMatch : null;
     }
 
     function handleFreeTextInput() {

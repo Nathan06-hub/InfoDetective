@@ -84,7 +84,7 @@ class GeminiService:
                     f"3. FORMAT : Style SMS/WhatsApp ultra-court (1 à 2 phrases simples GRAND MAXIMUM). Termine toujours complètement ta phrase."
                 )
 
-            models_to_try = ["gemini-2.5-flash", "gemini-3.5-flash", "gemini-3.6-flash"]
+            models_to_try = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
             last_err = None
 
             for model_name in models_to_try:
@@ -95,8 +95,7 @@ class GeminiService:
                         config=types.GenerateContentConfig(
                             system_instruction=sys_instruction,
                             temperature=0.7,
-                            max_output_tokens=300,
-                            thinking_config=types.ThinkingConfig(thinking_budget=0)
+                            max_output_tokens=300
                         )
                     )
                     if response and response.text:

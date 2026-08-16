@@ -17,98 +17,69 @@ class MockService:
         name_lower = (witness_name or "").lower()
         is_fr = lang.startswith("fr")
 
-        # ── 0. HISTOIRE / CONTEXTE / RACONTE-MOI ────────────────────────────────────
-        if any(k in msg_lower for k in ["histoire", "passé", "passer", "déroulé", "début", "commencé", "résumé", "contexte", "explication", "expliquer", "raconte", "racontes", "s'est-il", "qu'est-ce qui", "de quoi", "déroulement", "arrivé"]):
-            if "morel" in name_lower or "solaria" in msg_lower or "eau" in msg_lower:
-                return "Tout a commencé il y a 48h : des proches m'ont alerté sur une contamination de l'eau. J'ai vu les premiers chiffres inquiétants et j'ai immédiatement décidé d'informer le public !" if is_fr else "It started 48h ago: people alerted me about contaminated water. I saw rising numbers and shared it right away!"
-            elif "chantal" in name_lower or "vaneck" in name_lower or "biovital" in msg_lower:
-                return "C'est l'histoire de ma propre transformation ! Après des mois d'épuisement, j'ai essayé la cure BioVital. Voyant des résultats extraordinaires, j'ai voulu en faire profiter mes abonnés." if is_fr else "It's my own transformation story! After fatigue, I tried BioVital and shared the results with my community."
-            elif "rossi" in name_lower or "maire" in msg_lower:
-                return "Hier soir vers minuit, cette vidéo du Maire instaurant un couvre-feu total a débarqué sur nos groupes. En moins d'une heure, toute la ville ne parlait que de ça !" if is_fr else "Last night around midnight, the Mayor's curfew video landed on activist groups. In an hour, everyone was talking!"
-            elif "kevin" in name_lower or "6g" in msg_lower:
-                return "Mardi dernier, ils ont fini d'installer cette nouvelle antenne 6G en bas de chez moi. Deux jours plus tard, tous les moineaux du quartier ont mystérieusement disparu !" if is_fr else "Last Tuesday, they finished installing the 6G tower. Two days later, all local sparrows vanished!"
-            elif case_summary:
-                return f"En résumé : {case_summary} J'ai trouvé ça tellement grave et urgent que j'ai voulu en parler tout de suite !" if is_fr else f"In short: {case_summary} I thought it was so serious that I had to warn people!"
+        # ── 1. DOSSIER 1 : MOUSSA KABORÉ (COUVRE-FEU OUAGADOUGOU) ────────────────────
+        if "moussa" in name_lower or "kaboré" in name_lower or "kabore" in name_lower or "ouagadougou" in msg_lower or "couvre-feu" in msg_lower or "sécurité" in msg_lower:
+            if is_fr:
+                if any(k in msg_lower for k in ["faute", "orthographe", "minestère", "nom", "bizarre", "lettre", "erreur"]):
+                    return "Le nom de la page ? 'Minestère de la sécurité'... Attendez, un 'e' à Minestère au lieu d'un 'i' ?! Ah mince, je n'avais même pas fait attention avec la panique !"
+                if any(k in msg_lower for k in ["sig", "gouvernement", "officiel", "démenti", "vrai", "faux", "télé", "confirmer", "vrai arrêté", "ministre"]):
+                    return "Le Service d'Information du Gouvernement (SIG) vient de démentir formellement : aucun couvre-feu n'est en vigueur ! Le document a été falsifié."
+                if any(k in msg_lower for k in ["source", "où", "vu", "trouvé", "publié", "page", "facebook", "post", "qui"]):
+                    return "J'ai vu ça sur Facebook sur la page 'Minestère de la sécurité'. Tout le monde partageait en boucle au grand marché de Ouagadougou !"
+                if any(k in msg_lower for k in ["panique", "peur", "fermé", "fermer", "marché", "boutique", "pourquoi", "vite", "urgence"]):
+                    return "Quand on voit un communiqué avec le logo de la Primature disant 'Couvre-feu à 17h', on a peur de la police ! L'urgence nous a fait agir sans réfléchir."
+                return "C'est la panique totale ! Regardez le communiqué officiel publié sur Facebook qui annonce un couvre-feu immédiat à 17h. On doit tout fermer !"
             else:
-                return "Au départ, j'ai vu passer un message très alarmant que tout le monde partageait. J'ai voulu en savoir plus et j'ai relayé l'information pour prévenir les gens !" if is_fr else "At first, I saw an alarming post everyone was sharing. I wanted to warn people so I relayed it!"
+                if any(k in msg_lower for k in ["typo", "spelling", "minestère", "name", "mistake", "error"]):
+                    return "The page name? 'Minestère de la sécurité'... Wait, an 'e' in Minestère instead of an 'i'?! Oh no, I didn't even notice during the panic!"
+                if any(k in msg_lower for k in ["sig", "government", "official", "denial", "fake", "true", "confirm"]):
+                    return "The Government Information Service (SIG) just issued an official denial: no curfew was ever declared! The document is a total forgery."
+                if any(k in msg_lower for k in ["source", "where", "saw", "found", "published", "page", "facebook", "who"]):
+                    return "I saw it on Facebook on the 'Minestère de la sécurité' page. Everyone in the central market was sharing it non-stop!"
+                return "Everyone is panicking! Look at the official press release on Facebook announcing an immediate curfew at 5 PM. We have to shut down!"
 
-        # ── Cas particuliers pour témoins d'informations authentiques/spécifiques ────
-        if "vance" in name_lower or "grenouille" in msg_lower:
-            return "Notre étude a été publiée dans Nature Ecology & Evolution (DOI: 10.1038/s41559-026-02311-5) après 3 cycles d'évaluation par des pairs." if is_fr else "Our paper was published in Nature Ecology & Evolution after peer review."
-        elif "dupuis" in name_lower or "éclipse" in msg_lower:
-            return "Les calculs d'orbite ont été validés indépendamment par l'Observatoire de Paris, l'ESA et la NASA." if is_fr else "Orbit calculations were independently validated by Paris Observatory, ESA, and NASA."
-        elif "sang" in msg_lower or "254" in msg_lower:
-            if any(k in msg_lower for k in ["254", "numéro", "kenya", "prefixe"]):
-                return "Attendez... +254 c'est l'indicatif du Kenya ?! Oh non, j'ai partagé ça sans vérifier le préfixe !" if is_fr else "Wait... +254 is Kenya's code?! Oh no, I shared without checking!"
+        # ── 2. DOSSIER 2 : ELSA MBARGA (APPEL DON DE SANG LAQUINTINIE) ────────────────
+        if "elsa" in name_lower or "mbarga" in name_lower or "laquintinie" in msg_lower or "sang" in msg_lower or "69689898" in msg_lower or "donneur" in msg_lower:
+            if is_fr:
+                if any(k in msg_lower for k in ["numéro", "69689898", "surtaxé", "arnaque", "crédit", "appeler", "téléphone", "contact"]):
+                    return "Des amis ont essayé d'appeler ce numéro 69689898 : c'est un numéro surtaxé qui vide tout le forfait dès qu'on décroche ! C'est une arnaque."
+                if any(k in msg_lower for k in ["hôpital", "hopital", "laquintinie", "banque", "médecin", "vérifié", "service", "appelé"]):
+                    return "J'ai appelé le service de transfusion de l'hôpital Laquintinie : ils disent qu'ils n'ont JAMAIS émis cet appel et que leurs stocks sont stables !"
+                if any(k in msg_lower for k in ["qui", "papa", "père", "envoyé", "transféré", "reçu", "message", "whatsapp", "source", "capture"]):
+                    return "En fait c'est une capture d'écran transférée dans notre groupe d'étudiants avec la mention 'Transféré'. Ce n'est pas mon vrai père qui m'a écrit directement !"
+                if any(k in msg_lower for k in ["mourir", "émotion", "peur", "pourquoi", "partage", "sentiment", "vite"]):
+                    return "Quand on lit 'Ne me laisse pas mourir 🙏', la culpabilité est énorme ! On a peur de laisser mourir quelqu'un alors on partage par compassion."
+                return "J'ai reçu ce message désespéré demandant d'urgence 4 donneurs de sang pour l'hôpital Laquintinie... Je dois vite le transférer partout !"
+            else:
+                if any(k in msg_lower for k in ["number", "69689898", "scam", "phone", "call", "credit"]):
+                    return "Friends tried calling that 69689898 number: it's a premium-rate scam that drains mobile credit the moment it connects!"
+                if any(k in msg_lower for k in ["hospital", "laquintinie", "blood", "bank", "doctor", "checked"]):
+                    return "I called Laquintinie Hospital's blood transfusion service: they confirmed they NEVER issued this alert and their stocks are normal!"
+                if any(k in msg_lower for k in ["who", "dad", "father", "sent", "forwarded", "whatsapp", "source"]):
+                    return "Actually it's a screenshot forwarded into our student group with the 'Forwarded' tag. It wasn't my real dad messaging me directly!"
+                return "I received this desperate message begging for 4 urgent blood donors for Laquintinie Hospital... I need to forward it everywhere fast!"
 
-        # ── GRILLE COMPLÈTE DE MOTS-CLÉS (11 THÉMATIQUES) ───────────────────────────
+        # ── 3. QUESTIONS UNIVERSELLES SUR LES FAITS (TOUTES AFFAIRES) ─────────────────
         if is_fr:
-            # 1. Preuve / Graphique
-            if any(k in msg_lower for k in ["graphique", "statistique", "chiffre", "courbe", "logo", "%", "taux", "donnée"]):
-                return "Je ne sais pas exactement qui l'a fait, mais il y a le logo d'un laboratoire en haut à droite. Les courbes montent en flèche, ça avait l'air super sérieux..."
-
-            # 2. IA / Deepfake / Retouche
-            if any(k in msg_lower for k in ["ia", "intelligence artificielle", "chatgpt", "photoshop", "filtre", "truqué", "généré", "fake", "deepfake", "voix", "visage"]):
-                return "Une IA ? Franchement je ne pense pas, les mouvements du visage et la voix sont super naturels. De nos jours on accuse l'IA dès qu'une vérité dérange !"
-
-            # 3. Argent / Business / Sponsor
-            if any(k in msg_lower for k in ["argent", "payé", "pub", "sponsor", "vendre", "prix", "gagner", "commission", "code", "bénéfice"]):
-                return "Pas du tout ! Enfin, ils m'ont envoyé un échantillon gratuit pour tester, mais je partage surtout parce que le produit a changé mon quotidien !"
-
-            # 4. Anachronisme / Date
-            if any(k in msg_lower for k in ["date", "quand", "aujourd'hui", "hier", "année", "ancien", "vieux", "2018", "2020", "2022", "récent"]):
-                return "Elle est ré-apparue en haut de mon fil ce matin ! Je n'ai pas vérifié la date exacte de première publication, mais le sujet est super d'actualité."
-
-            # 5. Fausse Expertise / Diplôme
-            if any(k in msg_lower for k in ["expert", "docteur", "scientifique", "diplôme", "spécialiste", "chercheur", "étude", "professeur"]):
-                return "C'est le compte d'un chercheur indépendant suivi par 50 000 personnes. De toute façon, les experts des plateaux télé sont tous payés par les labos !"
-
-            # 6. Fact-Checkers / Médias / Démenti
-            if any(k in msg_lower for k in ["fact-check", "afp", "décodeurs", "libération", "médias", "journaliste", "journal", "démenti", "intox"]):
-                return "Les fact-checkers travaillent pour les grands médias ! Ils cherchent juste à discréditer les citoyens qui posent des questions dérangeantes."
-
-            # 7. Photo / Image
-            if any(k in msg_lower for k in ["photo", "image", "couleur", "bouteille", "robinet", "marron", "récente", "tuyau", "visuel"]):
-                return "Le gars qui a posté disait que ça venait de son quartier ce matin. Après, je n'ai pas vérifié si la photo était récente, mais ça faisait peur."
-
-            # 8. Vérification (Mairie, Officiel, Site)
-            if any(k in msg_lower for k in ["vérifié", "officiel", "mairie", "gouvernement", "site", "ville", "ars"]):
-                return "Pas vraiment... Quand tu lis que l'eau peut te rendre malade dans l'heure, tu n'as pas le temps de chercher un communiqué officiel, tu réagis vite !"
-
-            # 9. Émotion / Peur
-            if any(k in msg_lower for k in ["peur", "panique", "danger", "malade", "hôpital", "inquiète", "paniqué", "doute", "alerte"]):
-                return "Peut-être, mais si c'était vrai ? Dans le doute, je préfère alerter mes proches plutôt que de laisser des gens tomber malades."
-
-            # 10. Origine / Source (Général)
-            if any(k in msg_lower for k in ["source", "qui", "d'où", "auteur", "trouvé", "vu", "sors", "envoyé", "partagé", "provenance"]):
-                return "Franchement, j'ai vu ça tourner dans notre groupe de promo sur WhatsApp. Tout le monde relayait la capture d'écran, alors je me suis dit que c'était urgent de prévenir les autres !"
-
-            # 11. Fallback par défaut
-            return "Écoute, tout est allé très vite. Regarde bien les captures et les documents du dossier, c'est tout ce que j'ai reçu. À toi de voir si ça tient la route ou pas !"
-
+            if any(k in msg_lower for k in ["source", "qui a", "d'où", "auteur", "trouvé", "vu où", "qui vous a", "page"]):
+                return "J'ai vu passer ça sur les réseaux sociaux. Tout le monde relayait la capture d'écran, alors je me suis dit que c'était urgent de prévenir les autres !"
+            if any(k in msg_lower for k in ["photo", "image", "capture", "visuel", "blouse", "labo", "décor"]):
+                return "La photo semblait crédible au premier coup d'œil, mais si vous regardez bien l'arrière-plan ou les détails, il y a des choses bizarres..."
+            if any(k in msg_lower for k in ["statistique", "chiffre", "pourcentage", "%", "étude", "scientifique", "preuve"]):
+                return "Ce sont les chiffres impressionnants qui étaient mis en avant dans le post. Mais maintenant que vous le dites, aucune revue scientifique n'est citée !"
+            if any(k in msg_lower for k in ["officiel", "vérifié", "gouvernement", "ministère", "police", "vrai"]):
+                return "À vrai dire, je n'ai pas pensé à chercher un communiqué officiel au début. L'urgence et le ton dramatique m'ont fait réagir trop vite !"
+            return f"Concernant cette affaire, j'ai agi sous le coup de l'émotion. Regardez bien les documents du dossier, ce sont tous les éléments que nous avons !"
         else:
-            # Version anglaise équivalente
-            if any(k in msg_lower for k in ["chart", "statistic", "number", "curve", "logo", "%", "rate", "data"]):
-                return "I don't know exactly who made it, but there's a lab logo at the top right. The curve goes way up, it looked really official..."
-            if any(k in msg_lower for k in ["ai", "deepfake", "fake", "filter", "photoshop", "voice", "generated"]):
-                return "An AI? I doubt it, the voice and face movements look so real. People blame AI whenever the truth hurts!"
-            if any(k in msg_lower for k in ["money", "paid", "ad", "sponsor", "sell", "price", "commission"]):
-                return "Not at all! Well, they sent a free sample to test, but I share mainly because it really improved my life!"
-            if any(k in msg_lower for k in ["date", "when", "today", "yesterday", "year", "old", "recent"]):
-                return "It popped back up on my feed this morning! I didn't check the exact original date, but it's super relevant today."
-            if any(k in msg_lower for k in ["expert", "doctor", "scientist", "degree", "specialist", "researcher", "study"]):
-                return "It's an independent researcher's account with 50,000 followers. TV experts are all paid by big labs anyway!"
-            if any(k in msg_lower for k in ["fact-check", "afp", "media", "journalist", "debunk", "fake news"]):
-                return "Fact-checkers work for mainstream media! They just want to silence citizens who ask disturbing questions."
-            if any(k in msg_lower for k in ["photo", "image", "color", "bottle", "tap", "brown", "recent"]):
-                return "The guy who posted said it was from his neighborhood this morning. I didn't check if the photo was recent, but it looked scary."
-            if any(k in msg_lower for k in ["verified", "official", "city", "government", "news", "site", "statement"]):
-                return "Not really... When you read that water could make you sick in an hour, you don't take time for official statements, you react fast!"
-            if any(k in msg_lower for k in ["fear", "panic", "danger", "sick", "hospital", "doubt", "worried", "panicked"]):
-                return "Maybe, but what if it was true? In doubt, I'd rather warn my loved ones than let people get sick."
-            if any(k in msg_lower for k in ["source", "who", "where", "author", "found", "saw", "send", "sent"]):
-                return "Honestly, I saw this trending in our WhatsApp promo group. Everyone was sharing the screenshot, so I thought it was urgent to warn others!"
-            return "Look, everything happened so fast. Check the screenshots and documents in the file, that's all I got. Up to you to see if it holds up!"
+            if any(k in msg_lower for k in ["source", "who", "where", "author", "found", "saw"]):
+                return "I saw this spreading on social media. Everyone was forwarding the screenshot, so I thought it was urgent to warn others!"
+            if any(k in msg_lower for k in ["photo", "image", "picture", "visual", "background"]):
+                return "The picture looked believable at first glance, but if you inspect the background details closely, something seems off..."
+            if any(k in msg_lower for k in ["statistic", "number", "percent", "%", "study", "proof"]):
+                return "Those impressive numbers were highlighted in the viral post. But now that you mention it, no scientific journal was ever cited!"
+            if any(k in msg_lower for k in ["official", "verified", "government", "ministry", "confirm"]):
+                return "To be honest, I didn't think about checking official channels at first. The urgency and dramatic tone made me react without thinking!"
+            return "Regarding this case, I reacted out of strong emotion. Look closely at the file documents, that's all the evidence we have!"
 
     @staticmethod
     def get_verdict_feedback(
