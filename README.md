@@ -1,7 +1,15 @@
-# 🕵️‍♂️ InfoDetective Backend (FastAPI + Gemini AI + PostgreSQL)
+---
+title: InfoDetective
+emoji: 🕵️‍♂️
+colorFrom: yellow
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
 
-**UNESCO Youth Hackathon 2026 — Media & Information Literacy**  
-*Backend API pour le jeu mobile de sensibilisation à la désinformation InfoDetective.*
+# 🕵️‍♂️ InfoDetective — UNESCO Youth Hackathon 2026
+*Plateforme d'Investigation et de Sensibilisation à la Désinformation (FastAPI + PWA + Gemini AI).*
 
 ---
 
