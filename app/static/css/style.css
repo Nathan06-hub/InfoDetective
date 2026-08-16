@@ -659,28 +659,72 @@ img { max-width: 100%; display: block; }
     margin-top: -4px;
 }
 
-/* White Pill Question Buttons */
-.question-pills-container {
+/* Interrogation Clue Tracker & Interactive Hint */
+.chat-clue-tracker {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    gap: 8px;
+    margin-top: 4px;
 }
-.question-pill-btn {
-    background: #FFFFFF;
-    color: #000000;
-    border: 2px solid #000000;
+.clue-tracker-label {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+.btn-hint-pill {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: var(--accent-amber);
+    padding: 6px 12px;
     border-radius: var(--radius-pill);
-    padding: 12px 20px;
-    font-size: 0.88rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    text-align: center;
+    cursor: pointer;
     transition: all var(--transition);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
-.question-pill-btn:hover {
-    transform: translateY(-1px);
-    background: #F3F4F6;
+.btn-hint-pill:hover {
+    background: rgba(245, 158, 11, 0.3);
+    transform: scale(1.03);
+}
+
+/* Evidence Discovery Toast Animation */
+.evidence-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-30px);
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: #FFFFFF;
+    padding: 12px 20px;
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 90vw;
+    text-align: center;
+}
+.evidence-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 .verdict-cta-wrapper {

@@ -18,16 +18,26 @@ const Chat = (() => {
         const witnessNameEl = document.getElementById('chat-witness-name');
         if (witnessNameEl) witnessNameEl.textContent = caseData.witness.name;
 
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
         const chatInput = document.getElementById('chat-input');
-        if (chatInput) chatInput.placeholder = `Discuter avec ${caseData.witness.name}...`;
+        if (chatInput) {
+            chatInput.placeholder = isEn ? `Ask ${caseData.witness.name} a question...` : `Posez votre question à ${caseData.witness.name}...`;
+        }
 
         // Add opening assistant message to conversation history
-        const openingMessage = caseData.witness.intro || caseData.witness.opening || "Bonjour Détective.";
+        const openingMessage = caseData.witness.intro || caseData.witness.opening || (isEn ? "Hello Detective." : "Bonjour Détective.");
         messagesHistory.push({ role: 'assistant', content: openingMessage });
 
         // Initial intro text animation
         setBubbleText(openingMessage, true);
-        showSuggestions();
+        updateClueTracker();
+
+        // Wire hint button
+        const hintBtn = document.getElementById('btn-request-hint');
+        if (hintBtn) {
+            hintBtn.onclick = () => requestWitnessHint();
+        }
     }
 
     function setWitnessExpression(variation = 1) {
@@ -77,7 +87,7 @@ const Chat = (() => {
                 clearInterval(typewriterInterval);
                 typewriterInterval = null;
             }
-        }, 45);
+        }, 40);
     }
 
     function showTyping() {
@@ -93,36 +103,96 @@ const Chat = (() => {
         if (status) status.textContent = lang === 'en' ? 'Online' : 'En ligne';
     }
 
-    function showSuggestions() {
-        const container = document.getElementById('suggested-questions');
-        if (!container) return;
-        const available = currentCase.questions.filter(q => !askedCategories.includes(q.id));
+    function updateClueTracker() {
+        const textEl = document.getElementById('chat-clue-text');
+        const badgeChip = document.getElementById('chat-evidence-count');
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
 
-        const toShow = available.slice(0, 2);
+        const revealedCount = typeof Evidence !== 'undefined' ? Evidence.getRevealedCount() : 1;
+        const totalCount = currentCase && currentCase.evidence ? currentCase.evidence.length : 3;
 
-        if (toShow.length === 0) {
-            container.innerHTML = `<div style="text-align:center;font-size:0.8rem;color:var(--text-muted);">Vous avez posé toutes les questions principales ! Vous pouvez lui poser des questions libres.</div>`;
-            return;
+        if (badgeChip) badgeChip.textContent = revealedCount;
+
+        if (textEl) {
+            if (revealedCount >= totalCount) {
+                textEl.textContent = isEn ? `All clues discovered (${revealedCount}/${totalCount})` : `Tous les indices découverts (${revealedCount}/${totalCount})`;
+            } else {
+                textEl.textContent = isEn ? `Clues discovered: ${revealedCount}/${totalCount}` : `Indices découverts : ${revealedCount}/${totalCount}`;
+            }
+        }
+    }
+
+    function showEvidenceToast(evidenceTitle) {
+        const toast = document.getElementById('evidence-toast');
+        const textEl = document.getElementById('evidence-toast-text');
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
+
+        if (!toast) return;
+
+        const prefix = isEn ? '+1 Evidence unlocked: ' : '+1 Preuve découverte : ';
+        if (textEl) {
+            textEl.textContent = `${prefix}${evidenceTitle || ''}`;
         }
 
-        container.innerHTML = toShow.map(q => {
-            const questionText = q.suggested[Math.floor(Math.random() * q.suggested.length)];
-            return `<button class="question-pill-btn" data-category="${q.id}">${questionText}</button>`;
-        }).join('');
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
 
-        container.querySelectorAll('.question-pill-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const catId = btn.dataset.category;
-                const questionText = btn.textContent;
-                handlePlayerQuestion(questionText, catId);
-            });
-        });
+    function requestWitnessHint() {
+        if (!currentCase) return;
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
+
+        // Find unasked question categories
+        const unasked = currentCase.questions.filter(q => !askedCategories.includes(q.id));
+        let hintText = "";
+
+        if (unasked.length === 0) {
+            hintText = isEn 
+                ? "You have already asked about all the main points! Review your evidence notebook and render your verdict when you're ready."
+                : "Vous avez déjà creusé tous les points essentiels ! Consultez votre carnet de preuves et rendez votre verdict quand vous êtes prêt.";
+        } else {
+            const targetQ = unasked[0];
+            if (isEn) {
+                const enHints = {
+                    'source': `You haven't asked me where I saw this post originally... maybe that's a good place to start?`,
+                    'faute': `Have you looked very carefully at the exact name and spelling of the page that published this?`,
+                    'dementi': `You could check if the official authorities or Government Information Service have responded to this.`,
+                    'message': `Look at the screenshot formatting... did I receive it directly, or was it forwarded from a group?`,
+                    'hopital': `Have you asked whether anyone called the hospital or blood transfusion service to verify?`,
+                    'numero': `There is a phone number listed at the bottom of the screen... what do we really know about it?`,
+                    'chercheur': `You haven't asked about the professor's actual academic field of research yet.`,
+                    'photo': `Look closely at the background of that picture... does it look like a real lab?`,
+                    'stats': `Where do those huge percentage numbers come from? Is there any published study?`,
+                    'audio': `Listen closely: does the speaker in the audio state their identity or position?`
+                };
+                hintText = enHints[targetQ.id] || `Think about the source, the authenticity of the documents, and whether official channels confirmed this.`;
+            } else {
+                const frHints = {
+                    'source': `Vous ne m'avez pas encore demandé d'où vient cette publication exactement... vous devriez commencer par là !`,
+                    'faute': `Avez-vous bien regardé le nom exact et l'orthographe de la page qui a partagé cette alerte ?`,
+                    'dementi': `Vous devriez vous demander si le gouvernement ou les canaux officiels ont confirmé ou démenti cette histoire.`,
+                    'message': `Regardez la capture WhatsApp... vous êtes sûr que c'est un message direct et pas un transfert anonyme ?`,
+                    'hopital': `Avez-vous pensé à vérifier si l'hôpital ou le centre de transfusion sanguine a réellement lancé cet appel ?`,
+                    'numero': `Il y a un numéro de téléphone affiché en bas de la capture... avez-vous cherché qui se cache derrière ?`,
+                    'chercheur': `Vous ne m'avez pas demandé quelle est la vraie spécialité du professeur à l'université.`,
+                    'photo': `Observez bien le décor de la photo... est-ce que ça ressemble vraiment à un laboratoire ?`,
+                    'stats': `Ces chiffres spectaculaires, d'où sortent-ils au juste ? Y a-t-il une vraie étude ?`,
+                    'audio': `Dans cet enregistrement, la personne donne-t-elle son vrai nom et sa fonction ?`
+                };
+                hintText = frHints[targetQ.id] || `Posez-moi des questions sur la source, la véracité des documents ou les réactions officielles.`;
+            }
+        }
+
+        setWitnessExpression(2);
+        setBubbleText(hintText, true);
     }
 
     async function handlePlayerQuestion(text, categoryId) {
-        const container = document.getElementById('suggested-questions');
-        if (container) container.innerHTML = '';
-
         let category = null;
         if (categoryId) {
             category = currentCase.questions.find(q => q.id === categoryId);
@@ -151,13 +221,16 @@ const Chat = (() => {
         if (typeof API !== 'undefined' && API.sendChatMessage) {
             try {
                 const apiRes = await API.sendChatMessage(caseNum, text, messagesHistory.slice(0, -1), lang);
-                if (apiRes && apiRes.message) {
-                    serverReply = apiRes.message;
+                if (apiRes && (apiRes.reply || apiRes.message)) {
+                    serverReply = apiRes.reply || apiRes.message;
 
                     // Débloquer dynamiquement les preuves notifiées par le backend
-                    if (apiRes.unlocked_evidence_ids && apiRes.unlocked_evidence_ids.length > 0) {
-                        apiRes.unlocked_evidence_ids.forEach(evIdx => {
-                            Evidence.revealEvidence(evIdx);
+                    if (apiRes.unlocked_evidences && apiRes.unlocked_evidences.length > 0) {
+                        apiRes.unlocked_evidences.forEach(ev => {
+                            const newlyUnlocked = Evidence.revealEvidence(ev.order_index || 0);
+                            if (newlyUnlocked) {
+                                showEvidenceToast(ev.title);
+                            }
                         });
                     }
                 }
@@ -171,13 +244,13 @@ const Chat = (() => {
             removeTyping();
             messagesHistory.push({ role: 'assistant', content: serverReply });
             setBubbleText(serverReply, true);
-            showSuggestions();
+            updateClueTracker();
             return;
         }
 
-        // 3. Mode de secours local (fallback hors-ligne)
+        // 3. Mode de secours local (fallback intelligent)
         if (category) {
-            const delay = 400 + Math.random() * 200;
+            const delay = 350 + Math.random() * 200;
             setTimeout(() => {
                 removeTyping();
                 const response = category.responses[Math.floor(Math.random() * category.responses.length)];
@@ -185,16 +258,20 @@ const Chat = (() => {
                 setBubbleText(response, true);
 
                 if (category.revealsEvidence !== null && category.revealsEvidence !== undefined) {
-                    Evidence.revealEvidence(category.revealsEvidence);
+                    const newlyUnlocked = Evidence.revealEvidence(category.revealsEvidence);
+                    if (newlyUnlocked) {
+                        const evTitle = currentCase.evidence[category.revealsEvidence]?.title;
+                        showEvidenceToast(evTitle);
+                    }
                 }
-                showSuggestions();
+                updateClueTracker();
             }, delay);
         } else {
             const witnessReply = await askWitnessAI(text);
             removeTyping();
             messagesHistory.push({ role: 'assistant', content: witnessReply });
             setBubbleText(witnessReply, true);
-            showSuggestions();
+            updateClueTracker();
         }
     }
 
