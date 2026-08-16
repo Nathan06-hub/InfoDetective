@@ -54,120 +54,119 @@ const ALL_TECHNIQUES = [
 const CASES = [
     // ======== DOSSIER 1 ========
     {
-        id: 'case-1', number: 1, title: 'Le Vaccin Miracle du Professeur Kanga',
+        id: 'case-1', number: 1, title: 'Alerte Couvre-feu à Ouagadougou',
         difficulty: 1, isTrue: false,
-        brief: 'Une publication Facebook devenue virale affirme que le Professeur Albert Kanga, chercheur à l\'Université de Bandawa, a découvert un vaccin qui « élimine 98,7% des virus connus ». La publication inclut une photo du professeur en blouse blanche et un graphique impressionnant. Des centaines de partages en 24h.',
+        brief: 'Sur Facebook, une page nommée "Minestère de la sécurité" a publié la capture d\'un communiqué officiel estampillé Primature du Burkina Faso déclarant un couvre-feu immédiat de 17h à 4h du matin. Les marchés ferment précipitamment, mais une faute d\'orthographe sur le nom de la page attire votre attention.',
         witness: {
-            name: 'Nadège Mbala', age: 34, role: 'Secrétaire administrative à l\'université',
-            avatar: 'assets/witnesses/nadege.webp', initials: 'NM', color: '#E8A33D',
-            personality: 'Enthousiaste, fière de son université, crédule et un peu naïve face aux partages WhatsApp. Elle défend fermement ses collègues.',
+            name: 'Moussa Kaboré', age: 36, role: 'Commerçant à Ouagadougou',
+            avatar: 'assets/witnesses/nadege.webp', initials: 'MK', color: '#E8A33D',
+            personality: 'Paniqué, pressé de fermer sa boutique et d\'avertir ses voisins, n\'a pas pris le temps d\'analyser les détails du document.',
             knows: [
-                'La publication vient de la page Facebook "InfoSanté Afrique", partagée dans le groupe WhatsApp des anciens de la fac.',
-                'Le Professeur Albert Kanga enseigne les mathématiques à l\'université, et NON la médecine ou la biologie.',
-                'La photo utilisée a été prise lors de la cérémonie de remise des diplômes 2024 où il portait une toge académique, pas une blouse de laboratoire.',
-                'Aucune étude scientifique n\'a été publiée pour soutenir le chiffre de 98,7% d\'efficacité.'
+                'La publication vient de la page Facebook "Minestère de la sécurité", partagée massivement sur Facebook et WhatsApp.',
+                'Tout le monde au grand marché de Ouagadougou a commencé à ranger ses marchandises en panique.',
+                'Il n\'avait pas remarqué la faute d\'orthographe dans le nom de la page : "Minestère" avec un "e" au lieu de "Ministère".',
+                'Le Service d\'Information du Gouvernement (SIG) a démenti tout couvre-feu et annoncé des poursuites.'
             ],
-            opening: 'Bonjour Détective. Vous vouliez me poser des questions sur cette histoire à l\'université ?',
-            intro: 'Bonjour Détective. Vous vouliez me poser des questions sur cette histoire à l\'université ?'
+            opening: 'Bonjour Détective ! C\'est la panique ici, ils annoncent un couvre-feu à 17h sur Facebook ! On doit tout fermer !',
+            intro: 'Bonjour Détective ! C\'est la panique ici, ils annoncent un couvre-feu à 17h sur Facebook ! On doit tout fermer !'
         },
         questions: [
-            { id: 'source', suggested: ['Où avez-vous vu cette publication ?', 'Qui a publié ça en premier ?'],
+            { id: 'source', suggested: ['Où avez-vous vu cette publication ?', 'Qui a publié ce communiqué ?'],
               keywords: ['où', 'vu', 'source', 'trouvé', 'publié', 'page', 'facebook', 'premier', 'origine'],
-              responses: ['J\'ai vu ça dans le groupe WhatsApp des anciens de la fac. Tout le monde partageait, même le doyen a liké !', 'C\'est une page "InfoSanté Afrique" qui a publié. Je ne sais pas qui gère cette page mais ça avait l\'air sérieux.'],
+              responses: ['J\'ai vu ça sur Facebook sur la page "Minestère de la sécurité". Tout le monde partageait en boucle !', 'C\'est apparu sur mon fil d\'actualité avec le logo du pays et la signature de la Primature, ça avait l\'air officiel.'],
               revealsEvidence: 0 },
-            { id: 'chercheur', suggested: ['Vous connaissez personnellement le Pr. Kanga ?', 'Le professeur travaille dans quel domaine ?'],
-              keywords: ['kanga', 'professeur', 'chercheur', 'connais', 'domaine', 'spécialité', 'enseigne', 'cours'],
-              responses: ['Oui je le croise tous les jours ! Enfin... il enseigne les mathématiques, pas la biologie. Mais bon, il est intelligent, non ?', 'Le Professeur Kanga ? Il est au département de mathématiques. Attendez... des maths, pas de la médecine. Hm, maintenant que vous le dites...'],
-              revealsEvidence: null },
-            { id: 'photo', suggested: ['La photo du professeur en blouse, elle vient d\'où ?', 'Vous reconnaissez la photo utilisée ?'],
-              keywords: ['photo', 'image', 'blouse', 'laboratoire', 'labo', 'portrait'],
-              responses: ['Oh cette photo ! Mais oui je la reconnais — c\'est la cérémonie de remise des diplômes de l\'an dernier ! Il portait une toge, pas une blouse de labo.', 'Attendez, cette photo... c\'est celle de la fête de fin d\'année ! J\'y étais, on avait tous nos beaux habits. C\'est pas un laboratoire du tout ça.'],
-              revealsEvidence: 2 },
-            { id: 'stats', suggested: ['Le chiffre de 98,7%, ça vient d\'où ?', 'Il y a une étude scientifique derrière ?'],
-              keywords: ['chiffre', 'statistique', '98', 'pourcentage', 'étude', 'preuve', 'scientifique', 'article'],
-              responses: ['98,7% ? C\'est impressionnant, non ? Mais... non, je n\'ai jamais vu d\'article scientifique là-dessus. Le post ne cite rien en fait.', 'Honnêtement, je ne sais pas d\'où vient ce chiffre. J\'ai cherché sur Google Scholar et j\'ai rien trouvé. Bizarre quand même.'],
+            { id: 'faute', suggested: ['Avez-vous remarqué le nom exact de la page ?', 'Y a-t-il une faute dans le nom ?'],
+              keywords: ['nom', 'page', 'faute', 'orthographe', 'minestère', 'e', 'bizarre'],
+              responses: ['Le nom ? "Minestère de la sécurité"... Attendez, un "e" à Minestère ? Ah mince, je n\'avais même pas fait attention avec la panique !', 'Maintenant que vous le dites... un vrai ministère ne ferait jamais une faute pareille dans son propre nom !'],
               revealsEvidence: 1 },
-            { id: 'partage', suggested: ['Pourquoi avoir partagé sans vérifier ?', 'Vous vérifiez d\'habitude avant de partager ?'],
-              keywords: ['partagé', 'pourquoi', 'vérifié', 'vérifier', 'partage', 'confiance'],
-              responses: ['Bah tout le monde partageait dans le groupe ! Quand le doyen like, tu te poses pas de questions. Enfin... peut-être que j\'aurais dû.', 'Vous savez, quand c\'est quelqu\'un de votre propre université, on a tendance à faire confiance. Mais c\'est vrai que j\'aurais dû chercher plus.'],
+            { id: 'dementi', suggested: ['Le gouvernement a-t-il confirmé ?', 'Qu\'en dit le Service d\'Information du Gouvernement (SIG) ?'],
+              keywords: ['sig', 'gouvernement', 'officiel', 'démenti', 'vrai', 'confirmer', 'télévision'],
+              responses: ['Le SIG vient de publier un communiqué : aucun couvre-feu n\'a été décrété ! C\'est un faux document fabriqué.', 'La télévision nationale vient de démentir ! Le document a été falsifié pour semer la peur.'],
+              revealsEvidence: 2 },
+            { id: 'panique', suggested: ['Pourquoi les commerçants ont-ils fermé si vite ?', 'Pourquoi avoir paniqué sans vérifier ?'],
+              keywords: ['panique', 'marché', 'fermer', 'vite', 'pourquoi', 'peur', 'urgence'],
+              responses: ['Quand on voit "Couvre-feu à 17h" et "Toute information contraire est une infox", la peur prend le dessus ! On n\'a pas réfléchi.', 'L\'heure tournait, on avait peur d\'avoir des ennuis avec la police. L\'urgence nous a fait oublier de vérifier.'],
               revealsEvidence: null }
         ],
         evidence: [
-            { id: 'e1', title: 'Publication Facebook — "InfoSanté Afrique"', type: 'screenshot', typeLabel: 'Capture d\'écran',
-              content: 'InfoSanté Afrique\n━━━━━━━━━━━━━━━━━━\n« DÉCOUVERTE HISTORIQUE\nLe Pr. Albert Kanga a mis au point un vaccin révolutionnaire éliminant 98,7% des virus connus ! La fierté africaine ! »\n\n2.4K likes · 892 commentaires · 1.1K partages\n\nPage non vérifiée · 3 200 abonnés · Créée il y a 2 mois',
-              description: 'La page "InfoSanté Afrique" n\'est pas vérifiée par Facebook. Elle n\'a que 3 200 abonnés et a été créée très récemment. Aucun lien vers une institution reconnue.' },
-            { id: 'e2', title: 'Graphique "98,7% d\'efficacité"', type: 'statistic', typeLabel: 'Statistique',
-              content: 'EFFICACITÉ DU VACCIN KANGA\n━━━━━━━━━━━━━━━━━━\n98,7%\n\nSource : aucune mentionnée\nMéthodologie : non précisée\nPublié dans : aucune revue citée',
-              description: 'Le graphique affiche un chiffre impressionnant mais ne cite aucune source, aucune méthodologie, aucune revue scientifique. Un vrai résultat serait publié dans une revue à comité de lecture.' },
-            { id: 'e3', title: 'Photo du Pr. Kanga "en laboratoire"', type: 'image', typeLabel: 'Image',
-              content: 'Photo montrant un homme en tenue académique dans une salle de cérémonie.\n\nLégende originale : « Pr. Kanga lors de la remise des diplômes 2024 »\nLégende modifiée : « Pr. Kanga dans son laboratoire de recherche »\n\nLe décor visible (chaises, estrade, drapeaux) ne correspond pas à un laboratoire.',
-              description: 'La photo a été prise lors d\'une cérémonie officielle, pas dans un laboratoire. La légende a été modifiée pour donner une fausse impression de contexte scientifique.' }
+            { id: 'e1', title: 'Communiqué officiel de la Primature — Facebook', type: 'image', typeLabel: 'Capture d\'écran',
+              imageUrl: 'images/couvre_feu_bf.png', content_url: '/static/images/couvre_feu_bf.png',
+              content: 'images/couvre_feu_bf.png',
+              description: 'Document estampillé de la Primature du Burkina Faso publié sur la page suspecte "Minestère de la sécurité" avec un "e".' },
+            { id: 'e2', title: 'Analyse du nom de la page Facebook', type: 'document', typeLabel: 'Document',
+              content: 'PAGE FACEBOOK : "Minestère de la sécurité"\n━━━━━━━━━━━━━━━━━━\n• Nom falsifié : "Minestère" au lieu de "Ministère"\n• Absence de badge de certification bleu\n• Compte récent non répertorié sur le portail gouvernemental',
+              description: 'Une page officielle d\'un ministère d\'État ne comporte jamais de faute d\'orthographe dans son titre principal et possède un badge de certification.' },
+            { id: 'e3', title: 'Démenti officiel du Service d\'Information du Gouvernement (SIG)', type: 'document', typeLabel: 'Document',
+              content: 'COMMUNIQUÉ DU SIG DU BURKINA FASO\n━━━━━━━━━━━━━━━━━━\n« Aucun couvre-feu n\'est en vigueur. Le document circulant sur les réseaux sociaux est un faux. Une plainte a été déposée pour falsification de documents publics. »',
+              description: 'Le Service d\'Information du Gouvernement (SIG) confirme formellement la manipulation et annonce des poursuites pénales.' }
         ],
-        correctTechniques: ['source-anonyme', 'stat-trompeuse', 'image-hors-contexte'],
-        techniqueChoices: ['source-anonyme', 'stat-trompeuse', 'image-hors-contexte', 'deepfake-audio', 'appel-emotion', 'fausse-causalite', 'aucune'],
+        correctTechniques: ['logo-falsifie', 'source-non-fiable', 'urgence-fabriquee', 'appel-peur'],
+        techniqueChoices: ['logo-falsifie', 'source-non-fiable', 'urgence-fabriquee', 'appel-peur', 'stat-trompeuse', 'deepfake-audio', 'aucune'],
         feedback: {
-            perfect: 'Excellent travail, détective ! Vous avez identifié les 3 techniques clés : une source anonyme non vérifiable, une statistique sans fondement, et une image sortie de son contexte. Le trio classique de la désinformation virale.',
-            good: 'Bien joué ! Vous avez repéré l\'essentiel. Gardez toujours le réflexe : qui publie ? quelles preuves ? la photo montre-t-elle vraiment ce qu\'on prétend ?',
-            partial: 'Pas mal pour un début ! Vous avez vu certaines manipulations mais d\'autres vous ont échappé. Astuce : vérifiez TOUJOURS la source, les chiffres ET les images séparément.',
-            poor: 'Ce dossier était piégé ! La prochaine fois, posez-vous 3 questions : 1) Qui parle ? 2) D\'où viennent les chiffres ? 3) La photo est-elle dans son contexte original ?'
+            perfect: 'Enquête exemplaire, détective ! Vous avez démasqué l\'usurpation d\'identité gouvernementale : faux logo, faute dans le nom ("Minestère"), urgence artificielle et appel à la peur.',
+            good: 'Bien joué ! L\'essentiel a été repéré. Devant un prétendu arrêté d\'urgence, vérifiez TOUJOURS l\'orthographe de la source et les canaux certifiés du gouvernement.',
+            partial: 'Vous avez vu certains pièges, mais n\'oubliez pas la falsification du logo officiel et l\'exploitation de la peur.',
+            poor: 'L\'urgence vous a trompé ! Ne partagez jamais un ordre de couvre-feu sans vous référer aux canaux officiels du SIG.'
         },
-        lesson: 'La désinformation utilise souvent un « combo » : une source vague + des chiffres impressionnants + une image trompeuse. Séparément, chaque élément peut paraître anodin. Ensemble, ils créent une fausse crédibilité. Réflexe : vérifiez chaque élément indépendamment.',
-        badge: { name: 'Vérificateur de Sources', icon: 'search' }
+        lesson: 'Les faussaires utilisent souvent les armoiries nationales et un ton autoritaire pour tromper la population. Réflexe d\'hygiène informationnelle : repérez les fautes d\'orthographe dans le nom de l\'émetteur et vérifiez sur les canaux officiels certifiés.',
+        badge: { name: 'Vérificateur d\'Arrêtés', icon: 'tag' }
     },
 
     // ======== DOSSIER 2 ========
     {
-        id: 'case-2', number: 2, title: 'Alerte Eau Empoisonnée à Matadi',
+        id: 'case-2', number: 2, title: 'Appel d\'Urgence Hôpital Laquintinie',
         difficulty: 1, isTrue: false,
-        brief: 'Un audio WhatsApp de 45 secondes, partagé des milliers de fois, affirme qu\'un « employé de la société des eaux » a révélé que l\'eau du robinet contient un produit chimique dangereux. Le message accompagnant l\'audio : « URGENT ️️️ Ne buvez pas l\'eau ce soir ! Partagez à tous vos contacts SVP !!! »',
+        brief: 'Elsa a reçu une capture d\'écran WhatsApp dramatique d\'un supposé proche suppliant : "J\'ai besoin de 4 donneurs de sang urgemment pour l\'hôpital laquintinie... Ne me laisse pas mourir". Le message incite au partage massif avec le numéro 69689898. Véritable détresse ou arnaque téléphonique ?',
         witness: {
-            name: 'Oncle René', age: 58, role: 'Commerçant au marché central',
-            avatar: 'assets/witnesses/rene.webp', initials: 'OR', color: '#6B8E23',
-            intro: 'Ah mon petit, tu viens me poser des questions sur cette histoire d\'eau ? Moi j\'ai juste transféré pour protéger les gens, c\'est tout !'
+            name: 'Elsa Mbarga', age: 21, role: 'Étudiante à Douala',
+            avatar: 'assets/witnesses/amina.webp', initials: 'EM', color: '#6B8E23',
+            personality: 'Très émue et bouleversée, a failli transférer le message dans tous ses groupes par peur qu\'une personne meure.',
+            knows: [
+                'Elle a reçu la capture d\'écran d\'un message de "Papa" suppliant pour 4 donneurs de sang à l\'hôpital Laquintinie.',
+                'Le message utilise des formules tragiques ("Ne me laisse pas mourir") pour forcer le partage immédiat.',
+                'Elle n\'a pas vérifié le numéro de téléphone 69689898 qui s\'avère être un numéro surtaxé.',
+                'La banque de sang de l\'hôpital Laquintinie a confirmé qu\'aucun appel d\'urgence de ce type n\'a été lancé.'
+            ],
+            opening: 'Bonjour Détective ! J\'ai reçu ce message désespéré demandant du sang pour l\'hôpital Laquintinie... Je dois vite le transférer partout !',
+            intro: 'Bonjour Détective ! J\'ai reçu ce message désespéré demandant du sang pour l\'hôpital Laquintinie... Je dois vite le transférer partout !'
         },
         questions: [
-            { id: 'audio', suggested: ['Qui a enregistré cet audio ?', 'Vous connaissez la personne qui parle ?'],
-              keywords: ['audio', 'enregistré', 'voix', 'personne', 'parle', 'qui'],
-              responses: ['La personne dans l\'audio ? Non, je ne la connais pas. On m\'a transféré ça. C\'est "un employé" mais je ne sais pas lequel.', 'Connais pas du tout ! Mon neveu m\'a envoyé ça, lui aussi l\'a reçu de quelqu\'un d\'autre. Ça circule partout !'],
+            { id: 'message', suggested: ['Qui vous a transféré cette capture ?', 'Avez-vous parlé directement à votre père ?'],
+              keywords: ['qui', 'transféré', 'père', 'papa', 'parlé', 'appelé', 'contacté', 'reçu'],
+              responses: ['En fait c\'est une capture d\'écran transférée dans un groupe promo ! Ce n\'est pas mon vrai père qui m\'a écrit directement.', 'C\'est une capture qui circule d\'écran en écran avec la mention "Transféré". On ne sait même pas qui est l\'auteur original.'],
               revealsEvidence: 0 },
-            { id: 'eau', suggested: ['Votre eau avait l\'air normale ce jour-là ?', 'Vous avez constaté un problème avec l\'eau ?'],
-              keywords: ['eau', 'robinet', 'goût', 'couleur', 'normal', 'bu', 'constaté'],
-              responses: ['Mon eau ? Euh... elle avait l\'air normale en fait. Mais c\'est pas parce qu\'on voit rien qu\'y a rien, hein !', 'J\'ai pas osé goûter ! Mais ma voisine a bu et elle va très bien. Enfin bon, on sait jamais.'],
+            { id: 'hopital', suggested: ['Avez-vous contacté l\'hôpital Laquintinie ?', 'La banque du sang est-elle au courant ?'],
+              keywords: ['hôpital', 'laquintinie', 'banque', 'sang', 'don', 'contacté', 'appelé', 'vérifié'],
+              responses: ['J\'ai appelé la banque de sang de Laquintinie : ils disent qu\'ils n\'ont jamais émis ce message et que leurs stocks sont stables !', 'L\'hôpital a mis en garde : c\'est une arnaque virale récurrente pour faire appeler un numéro surtaxé.'],
+              revealsEvidence: 1 },
+            { id: 'numero', suggested: ['Que sait-on sur le numéro 69689898 ?', 'Avez-vous essayé d\'appeler le numéro ?'],
+              keywords: ['numéro', '69689898', 'téléphone', 'appeler', 'surtaxé', 'arnaque', 'argent'],
+              responses: ['Des amis ont essayé : c\'est un numéro surtaxé qui facture du crédit dès qu\'on décroche !', 'Le numéro en bas de la capture n\'appartient à aucun service médical, c\'est un piège pour siphonner le forfait.'],
               revealsEvidence: null },
-            { id: 'photo', suggested: ['La photo de l\'eau trouble, vous savez d\'où elle vient ?', 'Vous avez vérifié cette photo ?'],
-              keywords: ['photo', 'image', 'trouble', 'sale', 'robinet'],
-              responses: ['La photo ? Non j\'ai pas vérifié. Mais regardez comme l\'eau est sale dessus ! Ça fait peur, non ?', 'Ma fille m\'a dit que cette photo vient d\'un autre pays, y a 3 ans. Je sais pas si c\'est vrai...'],
-              revealsEvidence: 2 },
-            { id: 'verification', suggested: ['La société des eaux a confirmé ?', 'Vous avez appelé la société des eaux ?'],
-              keywords: ['société', 'eaux', 'confirmé', 'officiel', 'appelé', 'vérifié', 'démenti'],
-              responses: ['Appeler la société des eaux ? Ils vont nier, c\'est sûr ! Ils mentent toujours ces gens-là.', 'Non, j\'ai pas appelé. Mais quand quelqu\'un te dit de pas boire l\'eau, tu bois pas l\'eau, tu poses des questions après !'],
-              revealsEvidence: null },
-            { id: 'urgence', suggested: ['Pourquoi c\'est marqué "URGENT" partout ?', 'Ce message vous a fait peur ?'],
-              keywords: ['urgent', 'peur', 'panique', 'partager', 'vite', 'danger'],
-              responses: ['Quand c\'est urgent, on réfléchit pas, on partage ! La santé des gens d\'abord ! On vérifie après.', '"URGENT" et les émojis rouge, ça donne envie de réagir vite, c\'est vrai. Mieux vaut prévenir que guérir, non ?'],
-              revealsEvidence: 1 }
+            { id: 'emotion', suggested: ['Pourquoi avoir failli partager sans vérifier ?', 'La formule "Ne me laisse pas mourir" vous a-t-elle influencée ?'],
+              keywords: ['mourir', 'émotion', 'peur', 'culpabilité', 'partage', 'vite', 'sentiment'],
+              responses: ['Quand on lit "Ne me laisse pas mourir", on ressent une culpabilité immense ! On veut aider immédiatement.', 'L\'urgence vitale et les emojis en pleurs empêchent de réfléchir. On transfère par réflexe de compassion.'],
+              revealsEvidence: null }
         ],
         evidence: [
-            { id: 'e1', title: 'Transcription de l\'audio WhatsApp', type: '️', typeLabel: 'Audio',
-              content: '️ TRANSCRIPTION AUDIO (45s)\n━━━━━━━━━━━━━━━━━━\n« Bonsoir à tous. Je suis un employé de la société des eaux. Je ne peux pas donner mon nom pour des raisons de sécurité. Ce soir, ne buvez SURTOUT PAS l\'eau du robinet. Un produit a été déversé par erreur. Prévenez vos proches. Partagez ce message. »\n\n️ Locuteur : non identifié\n️ Entreprise : non confirmée\n️ Aucun numéro de rapport cité',
-              description: 'L\'audio provient d\'une source totalement anonyme. Aucun nom, aucun poste, aucun numéro de rapport. Une vraie alerte sanitaire passerait par les canaux officiels.' },
-            { id: 'e2', title: 'Message d\'accompagnement', type: '', typeLabel: 'Capture d\'écran',
-              content: ' MESSAGE WHATSAPP\n━━━━━━━━━━━━━━━━━━\n️️️ URGENT ️️️\n\n NE BUVEZ PAS L\'EAU DU ROBINET CE SOIR !!!\n\nPartagez à TOUS vos contacts SVP !!!\nOn nous cache la vérité !!!\n\n PARTAGEZ AVANT QU\'ILS CENSURENT \n\nTransféré >50 fois',
-              description: 'Le message multiplie les signaux d\'urgence (émojis, majuscules, répétitions) pour provoquer une réaction émotionnelle immédiate et empêcher la réflexion.' },
-            { id: 'e3', title: 'Photo de l\'eau "contaminée"', type: '️', typeLabel: 'Image',
-              content: ' Photo d\'un robinet laissant couler une eau brunâtre.\n\n Recherche d\'image inversée :\n→ Photo publiée en 2021 au Bangladesh\n→ Contexte original : inondation saisonnière\n→ Aucun lien avec Matadi ni avec un empoisonnement',
-              description: 'La photo est réelle mais date de 2021 et vient d\'un autre pays (Bangladesh, lors d\'inondations). Elle a été réutilisée hors contexte pour illustrer une fausse alerte.' }
+            { id: 'e1', title: 'Capture WhatsApp — Appel au Don de Sang Urgent', type: 'image', typeLabel: 'Capture d\'écran',
+              imageUrl: 'images/don_sang_whatsapp.png', content_url: '/static/images/don_sang_whatsapp.png',
+              content: 'images/don_sang_whatsapp.png',
+              description: 'Message WhatsApp alarmiste avec formules tragiques ("Ne me laisse pas mourir") et incitation au partage massif avec le numéro 69689898.' },
+            { id: 'e2', title: 'Vérification Banque du Sang Hôpital Laquintinie', type: 'document', typeLabel: 'Document',
+              content: 'HÔPITAL LAQUINTINIE DE DOUALA — SERVICE TRANSFUSION SANGUINE\n━━━━━━━━━━━━━━━━━━\n« Aucun appel d\'urgence au don de sang n\'a été émis. Les messages viraux WhatsApp mentionnant des numéros privés sont des escroqueries aux numéros surtaxés. »',
+              description: 'Les structures hospitalières disposent de protocoles officiels et ne demandent jamais de relayer des numéros privés sur les réseaux sociaux.' }
         ],
-        correctTechniques: ['source-anonyme', 'appel-peur', 'image-hors-contexte'],
-        techniqueChoices: ['source-anonyme', 'appel-peur', 'image-hors-contexte', 'urgence-fabriquee', 'stat-trompeuse', 'hameconnage', 'aucune'],
+        correctTechniques: ['appel-emotion', 'urgence-fabriquee', 'source-non-fiable', 'hameconnage'],
+        techniqueChoices: ['appel-emotion', 'urgence-fabriquee', 'source-non-fiable', 'hameconnage', 'logo-falsifie', 'stat-trompeuse', 'aucune'],
         feedback: {
-            perfect: 'Bravo, détective ! Source anonyme, appel à la peur et image hors contexte : vous maîtrisez le trio de la fausse alerte virale.',
-            good: 'Bien vu ! Les fausses alertes sanitaires utilisent toujours l\'urgence et l\'anonymat. Réflexe : si c\'est "URGENT", c\'est rarement vérifié.',
-            partial: 'Vous y êtes presque ! Les audios WhatsApp anonymes qui demandent de "partager vite" sont presque toujours des manipulation émotionnelles.',
-            poor: 'Ce dossier montre le schéma classique : source anonyme + panique + image volée = fausse alerte. Prochaine fois, cherchez la source officielle avant de transférer.'
+            perfect: 'Déduction parfaite ! Vous avez identifié le piège de la fausse urgence médicale : culpabilisation émotionnelle, source inconnue et hameçonnage téléphonique.',
+            good: 'Bien joué ! La manipulation par l\'empathie a été déjouée. Avant de relayer un appel de sang, contactez toujours l\'hôpital concerné.',
+            partial: 'Vous avez senti le danger, mais notez bien la combinaison : urgence fabriquée + appel à l\'émotion + hameçonnage.',
+            poor: 'L\'émotion a pris le dessus ! C\'est précisément sur la peur de laisser mourir quelqu\'un que comptent les fraudeurs pour propager leurs messages.'
         },
-        lesson: 'Les fausses alertes sanitaires suivent toujours le même schéma : une source anonyme « pour sa sécurité », un message URGENT en majuscules, et une demande de partager immédiatement. Ce combo exploite notre instinct de protection. Réflexe : si c\'est vraiment urgent, les autorités officielles communiqueront.',
-        badge: { name: 'Anti-Panique', icon: '️' }
+        lesson: 'Les chaînes virales de santé exploitent notre compassion en créant une fausse urgence vitale. Ne relayez JAMAIS un appel au don de sang sans avoir vérifié directement auprès de l\'établissement hospitalier.',
+        badge: { name: 'Détecteur de Faux SOS', icon: 'heart' }
     },
 
     // ======== DOSSIER 3 ========

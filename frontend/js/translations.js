@@ -174,48 +174,44 @@ const TECHNIQUE_TRANSLATIONS = {
 const CASE_TRANSLATIONS = {
     'en': {
         'case-1': {
-            title: 'Professor Kanga\'s Miracle Vaccine',
-            brief: 'A viral Facebook post claims that Professor Albert Kanga, a researcher at Bandawa University, has discovered a revolutionary vaccine that "eliminates 98.7% of known viruses". The post includes a photo of the professor in a lab coat and an impressive graph. Hundreds of shares in 24h.',
+            title: 'Ouagadougou Curfew Alert',
+            brief: 'On Facebook, a page named "Minestère de la sécurité" posted a government press release claiming an immediate curfew from 5 PM to 4 AM in Ouagadougou. Markets close hastily, but a spelling mistake on the page name catches your eye.',
             witness: {
-                role: 'Administrative secretary at the university',
-                intro: 'Hello Detective. You wanted to ask me questions about this university story?'
+                role: 'Merchant in Ouagadougou',
+                intro: 'Hello Detective! Everyone is panicking, they announced a 5 PM curfew on Facebook! We have to close our shops right away!'
             },
             questions: [
-                { id: 'source', suggested: ['Where did you see this post?', 'Who posted this first?'],
-                  responses: ['I saw it in the alumni WhatsApp group. Everyone was sharing, even the dean liked it!', 'It was published by an "InfoSanté Afrique" page. I don\'t know who runs it but it looked serious.'] },
-                { id: 'chercheur', suggested: ['Do you know Pr. Kanga personally?', 'What field does the professor work in?'],
-                  responses: ['Yes, I see him every day! Well... he teaches mathematics, not biology. But he is smart, right?', 'Professor Kanga? He is in the mathematics department. Wait... math, not medicine. Hm, now that you mention it...'] },
-                { id: 'photo', suggested: ['Where does the photo of the professor come from?', 'Do you recognize the photo used?'],
-                  responses: ['Oh, that photo! Yes, I recognize it — it\'s from last year\'s graduation ceremony! He was wearing a gown, not a lab coat.', 'Wait, that photo... it\'s from the year-end party! I was there, we were all dressed up. It\'s not a lab at all.'] },
-                { id: 'stats', suggested: ['Where does the 98.7% figure come from?', 'Is there a scientific study behind it?'],
-                  responses: ['98.7%? It\'s impressive, right? But... no, I\'ve never seen a scientific paper on it. The post doesn\'t cite anything actually.', 'Honestly, I don\'t know where that number comes from. I searched Google Scholar and found nothing. Strange.'] },
-                { id: 'partage', suggested: ['Why did you share without verifying?', 'Do you usually verify before sharing?'],
-                  responses: ['Well, everyone in the group was sharing it! When the dean likes it, you don\'t ask questions. Well... maybe I should have.', 'You know, when it\'s someone from your own university, you tend to trust them. But it\'s true I should have looked deeper.'] }
+                { id: 'source', suggested: ['Where did you see this post?', 'Who published this announcement?'],
+                  responses: ['I saw it on Facebook on the "Minestère de la sécurité" page. Everyone was sharing it non-stop!', 'It popped up on my feed with the national coat of arms and the Prime Ministry signature. It looked totally official.'] },
+                { id: 'faute', suggested: ['Did you notice the exact name of the page?', 'Is there a typo in the page name?'],
+                  responses: ['The name? "Minestère de la sécurité"... Wait, an "e" in Minestère? Oh no, I didn\'t even pay attention with all the panic!', 'Now that you mention it... an official government ministry would never make such a typo in its own title!'] },
+                { id: 'dementi', suggested: ['Did the government confirm the curfew?', 'What does the Government Information Service (SIG) say?'],
+                  responses: ['The SIG just published a formal denial: no curfew was ever declared! It\'s a forged document.', 'National TV just confirmed it\'s fake news! The document was doctored to spread fear.'] },
+                { id: 'panique', suggested: ['Why did merchants close so quickly?', 'Why panic without verifying first?'],
+                  responses: ['When you read "Curfew at 5 PM" and "Any other info is fake news", fear takes over! We didn\'t stop to think.', 'Time was running out, we feared getting into trouble with the police. Urgency made us forget to verify.'] }
             ],
-            lesson: 'Disinformation often uses a "combo": a vague source + impressive numbers + a misleading image. Independently, each element may look harmless. Together, they create fake credibility. Reflex: check each element independently.',
-            badge: { name: 'Source Verifier' }
+            lesson: 'Fraudsters often misuse official government coats of arms and an authoritative tone to manipulate the public. Media Literacy reflex: look for typos in the page name and cross-check directly on official verified channels (SIG).',
+            badge: { name: 'Decree Verifier' }
         },
         'case-2': {
-            title: 'Water Poisoning Alert in Matadi',
-            brief: 'A 45-second WhatsApp audio, shared thousands of times, claims that a "water company employee" revealed that tap water contains a dangerous chemical. The message accompanying the audio: "URGENT: Do not drink water tonight! Share to all your contacts ASAP!"',
+            title: 'Laquintinie Hospital Emergency Appeal',
+            brief: 'Elsa received a tragic WhatsApp screenshot begging: "I need 4 blood donors urgently for Laquintinie Hospital... Don\'t let me die". The message urges mass forwarding with phone number 69689898. Genuine distress or premium rate scam?',
             witness: {
-                role: 'Merchant at the central market',
-                intro: 'Ah my child, you come to ask me questions about this water story? I just forwarded it to protect people, that\'s all!'
+                role: 'Student in Douala',
+                intro: 'Hello Detective! I received this desperate message asking for blood for Laquintinie Hospital... I need to forward it everywhere fast!'
             },
             questions: [
-                { id: 'audio', suggested: ['Who recorded this audio?', 'Do you know the person speaking?'],
-                  responses: ['The person in the audio? No, I don\'t know them. It was forwarded to me. It is "an employee" but I don\'t know which one.', 'Not at all! My nephew sent it to me, he received it from someone else. It is circulating everywhere!'] },
-                { id: 'eau', suggested: ['Did your water look normal that day?', 'Did you notice any problem with the water?'],
-                  responses: ['My water? Uh... it looked normal. But just because you don\'t see anything doesn\'t mean there is nothing!', 'I didn\'t dare taste it! But my neighbor drank it and is completely fine. Anyway, you never know.'] },
-                { id: 'photo', suggested: ['Where does the photo of the turbid water come from?', 'Have you verified this photo?'],
-                  responses: ['The photo? No, I haven\'t checked. But look how dirty the water is! It is scary, right?', 'My daughter told me this photo is from another country, 3 years ago. I don\'t know if it\'s true...'] },
-                { id: 'verification', suggested: ['Did the water company confirm?', 'Did you call the water company?'],
-                  responses: ['Call the water company? They will just deny it, of course! Those people always lie.', 'No, I didn\'t call. But when someone tells you not to drink water, you don\'t drink it! You ask questions later.'] },
-                { id: 'urgence', suggested: ['Why is "URGENT" written everywhere?', 'Did this message scare you?'],
-                  responses: ['When it\'s urgent, you don\'t think, you share! People\'s health first! You verify later.', '"URGENT" and capital letters make you want to react fast, it\'s true. Better safe than sorry, right?'] }
+                { id: 'message', suggested: ['Who forwarded this screenshot to you?', 'Did you speak directly to your father?'],
+                  responses: ['Actually, it was a screenshot forwarded in a student group! It wasn\'t my real dad messaging me directly.', 'It\'s a screenshot circulating with the "Forwarded" tag. We don\'t even know who created the original post.'] },
+                { id: 'hopital', suggested: ['Did you contact Laquintinie Hospital?', 'Is the blood bank aware of this appeal?'],
+                  responses: ['I called the blood bank at Laquintinie Hospital: they confirmed they never issued this alert and their supplies are secure!', 'The hospital warned us: it is a recurring viral scam to get people to call a premium-rate number.'] },
+                { id: 'numero', suggested: ['What do we know about the phone number 69689898?', 'Did anyone try calling that number?'],
+                  responses: ['Friends tested it: it is a premium-rate phone number that charges hefty credit the moment it connects!', 'The number at the bottom belongs to no medical service; it is a trap to drain mobile credit.'] },
+                { id: 'emotion', suggested: ['Why did you almost share without checking?', 'Did the phrase "Don\'t let me die" affect your judgment?'],
+                  responses: ['When you read "Don\'t let me die", you feel tremendous guilt! You just want to help right away.', 'The emotional plea and crying emojis bypass rational thinking. People share out of pure compassion.'] }
             ],
-            lesson: 'Fake health alerts always follow the same pattern: an anonymous source "for security", an URGENT message in caps, and a call to share immediately. This combo exploits our protective instincts. Reflex: if it is truly urgent, official authorities will communicate.',
-            badge: { name: 'Anti-Panic' }
+            lesson: 'Viral health chains exploit empathy by manufacturing a life-or-death emergency. Never forward an unverified blood appeal with a private number without calling the hospital directly.',
+            badge: { name: 'Fake SOS Detector' }
         },
         'case-3': {
             title: 'Live Earthquake on TikTok',
