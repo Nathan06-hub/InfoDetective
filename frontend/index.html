@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>InfoDetective — Dix enquêtes sur la désinformation</title>
+    <meta name="description" content="Un jeu d'enquête pour apprendre à démasquer la désinformation.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260815_v15">
+    <meta name="theme-color" content="#0B0F17">
+</head>
+<body>
+<!-- SPLASH SCREEN INTRO ANIMATION -->
+<div id="splash-screen" class="splash-screen-overlay">
+    <div class="splash-content">
+        <div class="splash-badge-glow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="splash-badge-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+        </div>
+        <h1 class="splash-title">InfoDetective</h1>
+        <p class="splash-subtitle">L'Académie du Fact-Checking</p>
+        <div class="splash-tagline">Enquêtez · Démasquez · Vérifiez</div>
+        <button id="btn-skip-splash" class="splash-start-btn">Commencer l'Enquête →</button>
+    </div>
+</div>
+
+<div id="app">
+
+    <!-- GLOBAL HEADER -->
+    <header class="app-header" id="main-header">
+        <div class="header-inner-container">
+            <div class="header-brand" id="brand-home-link">
+                <span class="shield-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                </span>
+                <span class="brand-title">InfoDetective</span>
+            </div>
+
+            <!-- DESKTOP TOP NAVIGATION TABS -->
+            <nav class="desktop-header-nav" id="desktop-nav">
+                <button class="desktop-nav-link active" data-tab="home" id="desk-nav-home">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span data-i18n="nav-investigations">Enquêtes</span>
+                </button>
+                <button class="desktop-nav-link" data-tab="trophies" id="desk-nav-trophies">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                    <span data-i18n="nav-trophies">Trophées</span>
+                </button>
+                <button class="desktop-nav-link" data-tab="profile" id="desk-nav-profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span data-i18n="nav-profile">Profil</span>
+                </button>
+            </nav>
+
+            <div class="header-right-group" style="display:flex; align-items:center; gap:12px;">
+                <!-- GLOBAL LANGUAGE TOGGLE BUTTON -->
+                <button id="btn-lang-toggle-header" class="lang-pill-btn-header" title="Changer la langue / Switch language">
+                    <span id="header-lang-flag">🇫🇷</span>
+                    <span id="header-lang-label">FR</span>
+                </button>
+
+                <div class="header-stats">
+                    <span class="dossiers-counter"><span id="case-completed-count">0</span>/10 <span data-i18n="header-dossiers-label">DOSSIERS</span></span>
+                    <span class="badge-pill" id="header-badge-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                        <span id="badge-count">0</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SCREEN 1: ACCUEIL (ENQUÊTES) -->
+    <section id="screen-home" class="screen active">
+        <div class="home-container">
+            <!-- Hero Title -->
+            <div class="hero-section">
+                <h1 class="hero-title" data-i18n="hero-title">
+                    On ne vous dira pas si c'est vrai.<br>
+                    <span class="hero-title-muted">Vous allez le découvrir vous-même.</span>
+                </h1>
+                <p class="hero-subtitle" data-i18n="hero-subtitle">
+                    Dix affaires inspirées de mécanismes réels de désinformation. Interrogez le témoin, analysez les indices et démasquez les pièges.
+                </p>
+            </div>
+
+            <!-- Section 1: DOSSIER EN COURS -->
+            <div class="dossier-section-label" data-i18n="label-current-case">DOSSIER EN COURS</div>
+            <div id="active-case-container"></div>
+
+            <!-- Section 2: DOSSIERS SUIVANTS -->
+            <div class="dossier-section-label collapsible-label">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><polyline points="6 9 12 15 18 9"></polyline></svg> <span data-i18n="label-next-cases">DOSSIERS SUIVANTS</span></span>
+            </div>
+            <div class="dossiers-scroll-wrapper">
+                <div id="locked-cases-container" class="locked-cases-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREEN 2: BRIEF -->
+    <section id="screen-brief" class="screen">
+        <div class="screen-nav-bar">
+            <button class="btn-back" id="brief-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span data-i18n="btn-dossiers">Dossiers</span>
+            </button>
+        </div>
+        <main class="brief-container">
+            <div class="brief-category-badge" id="brief-category-badge">DOSSIER 01 · DÉBUTANT</div>
+            <h1 class="brief-main-title" id="brief-title"></h1>
+
+            <!-- Situation Card -->
+            <div class="brief-card">
+                <div class="brief-card-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>SITUATION</span>
+                </div>
+                <div class="brief-narrative-body" id="brief-narrative"></div>
+            </div>
+
+            <!-- Witness Card -->
+            <div class="brief-card witness-card">
+                <div class="brief-card-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span>TÉMOIN</span>
+                </div>
+                <div class="witness-card-body">
+                    <img class="witness-card-avatar" id="brief-witness-avatar-img" src="" alt="Witness">
+                    <div class="witness-card-info">
+                        <h3 class="witness-card-name" id="brief-witness-name"></h3>
+                        <p class="witness-card-role" id="brief-witness-role"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warning Card -->
+            <div class="brief-card warning-card">
+                <div class="warning-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </div>
+                <p class="warning-text">
+                    Le témoin s'exprime selon ses propres convictions. Posez vos questions, examinez les indices et rendez votre verdict en identifiant la technique de manipulation présente.
+                </p>
+            </div>
+
+            <!-- Bottom CTA Button -->
+            <button class="btn-golden-primary" id="btn-start-investigation">
+                <span>Ouvrir l'enquête</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+        </main>
+    </section>
+
+    <!-- SCREEN 3: CHAT (COMIC NOVEL HYBRID STYLE) -->
+    <section id="screen-chat" class="screen">
+        <!-- Chat Header Bar -->
+        <header class="chat-header-bar">
+            <button class="btn-back" id="chat-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Brief</span>
+            </button>
+            <div class="chat-header-title-clean" id="chat-witness-name">Témoin</div>
+            <button class="btn-evidence-badge-top" id="btn-open-evidence-top">
+                <span>Preuves</span>
+                <span class="evidence-count-chip" id="chat-evidence-count">0</span>
+            </button>
+        </header>
+
+        <!-- Comic Stage -->
+        <main class="comic-chat-container">
+            <!-- Large Speech Bubble -->
+            <div class="comic-bubble-wrapper">
+                <div class="comic-speech-bubble">
+                    <p id="comic-bubble-text">Chargement de l'interrogatoire...</p>
+                </div>
+                <div class="comic-bubble-pointer"></div>
+            </div>
+
+            <!-- Centered Character Portrait Stage -->
+            <div class="comic-portrait-stage">
+                <img id="comic-witness-img" src="assets/witnesses/nadege.png" alt="Witness Portrait" class="comic-witness-img" />
+                <div class="comic-ground-platform"></div>
+            </div>
+
+            <!-- Question Pills -->
+            <div class="question-pills-container" id="suggested-questions"></div>
+
+            <!-- Sticky Golden Verdict Trigger CTA -->
+            <div class="verdict-cta-wrapper">
+                <button class="btn-golden-primary btn-verdict-cta" id="btn-go-evidence-from-chat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                    <span>Voir les preuves et rendre le verdict</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- Bottom Input Bar -->
+        <footer class="chat-input-bar">
+            <div class="input-pill-container">
+                <input type="text" id="chat-input" placeholder="Discuter avec le témoin..." autocomplete="off">
+                <button class="btn-send-pill" id="btn-send">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    <span>Envoyer</span>
+                </button>
+            </div>
+        </footer>
+    </section>
+
+    <!-- SCREEN 4: PREUVES -->
+    <section id="screen-evidence" class="screen">
+        <div class="screen-nav-bar">
+            <button class="btn-back" id="evidence-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Interrogatoire</span>
+            </button>
+            <span class="screen-nav-title">CARNET DE PREUVES</span>
+        </div>
+        <main class="evidence-container">
+            <div class="evidence-summary-bar">
+                <span class="evidence-icon-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                </span>
+                <span><strong id="evidence-found-count">0</strong> preuve(s) collectée(s)</span>
+            </div>
+            <div class="evidence-grid" id="evidence-grid"></div>
+            <div class="evidence-footer-actions">
+                <button class="btn-outline-navy" id="btn-back-to-chat">← Continuer l'interrogatoire</button>
+                <button class="btn-golden-primary" id="btn-go-verdict">Rendre mon verdict</button>
+            </div>
+        </main>
+    </section>
+
+    <!-- EVIDENCE MODAL -->
+    <div id="evidence-modal" class="modal" hidden>
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="evidence-detail">
+                <div class="evidence-detail-type" id="modal-evidence-type"></div>
+                <h3 id="modal-evidence-title"></h3>
+                <div id="modal-evidence-image"></div>
+                <p id="modal-evidence-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: VERDICT -->
+    <section id="screen-verdict" class="screen">
+        <div class="screen-nav-bar">
+            <button class="btn-back" id="verdict-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Preuves</span>
+            </button>
+            <span class="screen-nav-title">VERDICT</span>
+        </div>
+        <main class="verdict-container">
+            <div class="verdict-header-block">
+                <h1 class="verdict-heading">Verdict</h1>
+                <p class="verdict-subheading">
+                    Sélectionnez les techniques de manipulation réellement présentes dans ce dossier. Une accusation infondée coûte des points.
+                </p>
+            </div>
+            <div class="techniques-pill-grid" id="techniques-list"></div>
+            <div class="verdict-bottom-actions">
+                <button class="btn-outline-navy" id="btn-back-to-evidence-from-verdict">Revoir les preuves</button>
+                <button class="btn-golden-primary" id="btn-submit-verdict">Valider</button>
+            </div>
+        </main>
+    </section>
+
+    <!-- SCREEN 6: RÉSULTAT -->
+    <section id="screen-result" class="screen">
+        <main class="result-container">
+            <div class="result-score-circle-wrapper">
+                <div class="result-score-circle" id="score-circle">
+                    <span class="score-number" id="score-value">100</span>
+                    <span class="score-percent">%</span>
+                </div>
+                <div class="result-stars" id="score-stars"></div>
+                <h2 class="result-score-title" id="score-title">Enquête parfaite !</h2>
+                <div class="result-status-banner" id="result-status-banner"></div>
+            </div>
+            
+            <!-- SECTION BILAN DÉTAILLÉ : BIEN FAIT / À AMÉLIORER -->
+            <div class="result-analysis-grid">
+                <!-- Ce que vous avez bien fait -->
+                <div class="analysis-card analysis-good">
+                    <div class="analysis-card-header">
+                        <div class="analysis-icon-box good-icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <h3 class="analysis-title" data-i18n="result-good-title">Ce que vous avez bien fait</h3>
+                    </div>
+                    <div class="analysis-card-body" id="result-good-list"></div>
+                </div>
+
+                <!-- Ce qu'il faut améliorer -->
+                <div class="analysis-card analysis-improve">
+                    <div class="analysis-card-header">
+                        <div class="analysis-icon-box improve-icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        </div>
+                        <h3 class="analysis-title" data-i18n="result-improve-title">Ce qu'il faut améliorer</h3>
+                    </div>
+                    <div class="analysis-card-body" id="result-improve-list"></div>
+                </div>
+            </div>
+
+            <div class="result-debrief-card" id="result-lesson">
+                <h3 class="debrief-card-title" data-i18n="lesson-header-title">Ce que cette enquête nous apprend</h3>
+                <p class="debrief-card-text" id="lesson-text"></p>
+            </div>
+
+            <div class="result-badge-unlocked" id="result-badge" hidden>
+                <div class="badge-icon-box" id="result-badge-icon"></div>
+                <span class="badge-unlocked-title" id="result-badge-name"></span>
+            </div>
+
+            <div class="result-actions-bar" id="result-actions-bar">
+                <button class="btn-golden-primary" id="btn-next-case">Dossier suivant →</button>
+                <button class="btn-retry-primary" id="btn-retry-case">🔄 Réessayer l'enquête</button>
+                <button class="btn-outline-navy" id="btn-result-home">Retour aux dossiers</button>
+            </div>
+        </main>
+    </section>
+
+    <!-- SCREEN 7: TROPHÉES & STATS -->
+    <section id="screen-trophies" class="screen">
+        <div class="trophies-container">
+            <div class="trophies-header">
+                <h1 class="trophies-title">Trophées & Distinctions</h1>
+                <p class="trophies-subtitle">Collectionnez vos insignes de détective au fil des affaires résolues.</p>
+            </div>
+
+            <!-- Stats Overview Card -->
+            <div class="stats-overview-card">
+                <div class="stat-item">
+                    <span class="stat-val" id="stat-solved-count">0/10</span>
+                    <span class="stat-lbl">Affaires Résolues</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-val" id="stat-precision-score">0%</span>
+                    <span class="stat-lbl">Précision Moyenne</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-val" id="stat-badges-unlocked">0</span>
+                    <span class="stat-lbl">Badges Débloqués</span>
+                </div>
+            </div>
+
+            <!-- Badges Gallery Grid -->
+            <div class="section-badge-grid-title">VOS BADGES DE DÉTECTIVE</div>
+            <div class="badges-gallery-grid" id="badges-gallery-container">
+                <div class="badge-card locked">
+                    <div class="badge-card-icon">🔍</div>
+                    <div class="badge-card-name">Vérificateur de Sources</div>
+                    <div class="badge-card-desc">Résolvez le Dossier #1 avec au moins 2 étoiles</div>
+                </div>
+                <div class="badge-card locked">
+                    <div class="badge-card-icon">⚡</div>
+                    <div class="badge-card-name">Démasqueur de Buzz</div>
+                    <div class="badge-card-desc">Résolvez le Dossier #2 avec au moins 2 étoiles</div>
+                </div>
+                <div class="badge-card locked">
+                    <div class="badge-card-icon">🛡️</div>
+                    <div class="badge-card-name">Chasseur d'Arnaques</div>
+                    <div class="badge-card-desc">Résolvez le Dossier #3 avec au moins 2 étoiles</div>
+                </div>
+                <div class="badge-card locked">
+                    <div class="badge-card-icon">🎓</div>
+                    <div class="badge-card-name">Détective d'Élite</div>
+                    <div class="badge-card-desc">Terminez les 10 dossiers d'enquête</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREEN 8: PROFIL & PARAMÈTRES IA -->
+    <section id="screen-profile" class="screen">
+        <div class="profile-container">
+            <div class="profile-header">
+                <h1 class="profile-title">Profil & Paramètres</h1>
+                <p class="profile-subtitle">Personnalisez votre profil et configurez l'intelligence artificielle.</p>
+            </div>
+
+            <!-- Profile Name Card -->
+            <div class="profile-card">
+                <h3 class="profile-card-title">Identité du Détective</h3>
+                <div class="profile-name-edit-group">
+                    <input type="text" id="profile-name-input" placeholder="Votre nom de détective..." autocomplete="off">
+                    <button id="btn-save-profile-name" class="btn-golden-sm">Enregistrer</button>
+                </div>
+                <div class="profile-name-saved-msg" id="profile-name-msg" hidden>✓ Pseudo enregistré</div>
+            </div>
+
+            <!-- Preferences Card -->
+            <div class="profile-card">
+                <h3 class="profile-card-title">Préférences de Jeu</h3>
+                <div class="preference-row">
+                    <span>Langue de l'interface</span>
+                    <button id="btn-lang-toggle-profile" class="lang-pill-btn">Français (FR)</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div><!-- #app -->
+
+<!-- MOBILE GAME BOTTOM NAVIGATION BAR -->
+<nav class="bottom-nav-bar" id="bottom-nav">
+    <button class="nav-tab active" data-tab="home" id="tab-nav-home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span data-i18n="nav-investigations">Enquêtes</span>
+    </button>
+    <button class="nav-tab" data-tab="trophies" id="tab-nav-trophies">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+        <span data-i18n="nav-trophies">Trophées</span>
+    </button>
+    <button class="nav-tab" data-tab="profile" id="tab-nav-profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span data-i18n="nav-profile">Profil</span>
+    </button>
+</nav>
+
+<script src="js/api.js?v=20260815_v12"></script>
+<script src="js/translations.js?v=20260815_v12"></script>
+<script src="js/data.js?v=20260815_v12"></script>
+<script src="js/data2.js?v=20260815_v12"></script>
+<script src="js/progress.js?v=20260815_v12"></script>
+<script src="js/evidence.js?v=20260815_v12"></script>
+<script src="js/chat.js?v=20260815_v12"></script>
+<script src="js/verdict.js?v=20260815_v12"></script>
+<script src="js/app.js?v=20260815_v12"></script>
+</body>
+</html>

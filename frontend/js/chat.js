@@ -1,0 +1,427 @@
+/* InfoDetective — Chat Module (Lovable Server-Style Architecture + Gemini 1.5 Flash + Conversational Context & Typewriter) */
+
+const Chat = (() => {
+    let currentCase = null;
+    let askedCategories = [];
+    let typewriterInterval = null;
+    let messagesHistory = []; // Stores { role: 'user'|'assistant', content: string }
+
+    function init(caseData) {
+        currentCase = caseData;
+        askedCategories = [];
+        messagesHistory = [];
+
+        // Set witness portrait (default variation 1)
+        setWitnessExpression(1);
+
+        // Set witness header info
+        const witnessNameEl = document.getElementById('chat-witness-name');
+        if (witnessNameEl) witnessNameEl.textContent = caseData.witness.name;
+
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) chatInput.placeholder = `Discuter avec ${caseData.witness.name}...`;
+
+        // Add opening assistant message to conversation history
+        const openingMessage = caseData.witness.intro || caseData.witness.opening || "Bonjour Détective.";
+        messagesHistory.push({ role: 'assistant', content: openingMessage });
+
+        // Initial intro text animation
+        setBubbleText(openingMessage, true);
+        showSuggestions();
+    }
+
+    function setWitnessExpression(variation = 1) {
+        const witnessImg = document.getElementById('comic-witness-img');
+        if (!witnessImg || !currentCase || !currentCase.witness) return;
+
+        const witness = currentCase.witness;
+        const defaultAvatar = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="%231E293B"/><circle cx="50" cy="38" r="18" fill="%23F59E0B"/><path d="M20,88 C20,64 34,54 50,54 C66,54 80,64 80,88 Z" fill="%23F59E0B"/></svg>';
+
+        let targetSrc = witness.avatar || defaultAvatar;
+
+        if (witness.avatar && witness.avatar.endsWith('.webp')) {
+            const basePath = witness.avatar.replace('.webp', '');
+            targetSrc = `${basePath}_${variation}.webp`;
+        }
+
+        witnessImg.src = targetSrc;
+        witnessImg.onerror = () => {
+            witnessImg.src = witness.avatar || defaultAvatar;
+            witnessImg.onerror = () => { witnessImg.src = defaultAvatar; };
+        };
+    }
+
+    function setBubbleText(text, animate = true) {
+        const bubbleTextEl = document.getElementById('comic-bubble-text');
+        if (!bubbleTextEl) return;
+
+        if (typewriterInterval) {
+            clearInterval(typewriterInterval);
+            typewriterInterval = null;
+        }
+
+        if (!animate || text === "..." || text.length < 5) {
+            bubbleTextEl.textContent = text;
+            return;
+        }
+
+        const words = text.split(" ");
+        bubbleTextEl.textContent = "";
+        let index = 0;
+
+        typewriterInterval = setInterval(() => {
+            if (index < words.length) {
+                bubbleTextEl.textContent += (index === 0 ? "" : " ") + words[index];
+                index++;
+            } else {
+                clearInterval(typewriterInterval);
+                typewriterInterval = null;
+            }
+        }, 45);
+    }
+
+    function showTyping() {
+        setBubbleText("...", false);
+        const status = document.querySelector('.chat-header-status');
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        if (status) status.textContent = lang === 'en' ? 'typing...' : 'écrit...';
+    }
+
+    function removeTyping() {
+        const status = document.querySelector('.chat-header-status');
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        if (status) status.textContent = lang === 'en' ? 'Online' : 'En ligne';
+    }
+
+    function showSuggestions() {
+        const container = document.getElementById('suggested-questions');
+        if (!container) return;
+        const available = currentCase.questions.filter(q => !askedCategories.includes(q.id));
+
+        const toShow = available.slice(0, 2);
+
+        if (toShow.length === 0) {
+            container.innerHTML = `<div style="text-align:center;font-size:0.8rem;color:var(--text-muted);">Vous avez posé toutes les questions principales ! Vous pouvez lui poser des questions libres.</div>`;
+            return;
+        }
+
+        container.innerHTML = toShow.map(q => {
+            const questionText = q.suggested[Math.floor(Math.random() * q.suggested.length)];
+            return `<button class="question-pill-btn" data-category="${q.id}">${questionText}</button>`;
+        }).join('');
+
+        container.querySelectorAll('.question-pill-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const catId = btn.dataset.category;
+                const questionText = btn.textContent;
+                handlePlayerQuestion(questionText, catId);
+            });
+        });
+    }
+
+    async function handlePlayerQuestion(text, categoryId) {
+        const container = document.getElementById('suggested-questions');
+        if (container) container.innerHTML = '';
+
+        let category = null;
+        if (categoryId) {
+            category = currentCase.questions.find(q => q.id === categoryId);
+        } else {
+            category = matchByKeywords(text);
+        }
+
+        if (category && !askedCategories.includes(category.id)) {
+            askedCategories.push(category.id);
+        }
+
+        // Add user question to conversation history
+        messagesHistory.push({ role: 'user', content: text });
+
+        // Cycle character expression variation (1, 2, 3)
+        const nextExpr = Math.floor(Math.random() * 3) + 1;
+        setWitnessExpression(nextExpr);
+
+        showTyping();
+
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const caseNum = currentCase.number || (typeof currentCase.id === 'string' ? parseInt(currentCase.id.replace(/\D/g, ''), 10) : currentCase.id) || 1;
+
+        // 1. Tenter l'appel au Backend FastAPI sécurisé
+        let serverReply = null;
+        if (typeof API !== 'undefined' && API.sendChatMessage) {
+            try {
+                const apiRes = await API.sendChatMessage(caseNum, text, messagesHistory.slice(0, -1), lang);
+                if (apiRes && apiRes.message) {
+                    serverReply = apiRes.message;
+
+                    // Débloquer dynamiquement les preuves notifiées par le backend
+                    if (apiRes.unlocked_evidence_ids && apiRes.unlocked_evidence_ids.length > 0) {
+                        apiRes.unlocked_evidence_ids.forEach(evIdx => {
+                            Evidence.revealEvidence(evIdx);
+                        });
+                    }
+                }
+            } catch (err) {
+                console.log('[Chat] Backend non joignable, bascule sur le moteur client local...');
+            }
+        }
+
+        // 2. Si le serveur a répondu, afficher la réponse
+        if (serverReply) {
+            removeTyping();
+            messagesHistory.push({ role: 'assistant', content: serverReply });
+            setBubbleText(serverReply, true);
+            showSuggestions();
+            return;
+        }
+
+        // 3. Mode de secours local (fallback hors-ligne)
+        if (category) {
+            const delay = 400 + Math.random() * 200;
+            setTimeout(() => {
+                removeTyping();
+                const response = category.responses[Math.floor(Math.random() * category.responses.length)];
+                messagesHistory.push({ role: 'assistant', content: response });
+                setBubbleText(response, true);
+
+                if (category.revealsEvidence !== null && category.revealsEvidence !== undefined) {
+                    Evidence.revealEvidence(category.revealsEvidence);
+                }
+                showSuggestions();
+            }, delay);
+        } else {
+            const witnessReply = await askWitnessAI(text);
+            removeTyping();
+            messagesHistory.push({ role: 'assistant', content: witnessReply });
+            setBubbleText(witnessReply, true);
+            showSuggestions();
+        }
+    }
+
+    /* Build Lovable-style System Prompt for Witness */
+    function buildWitnessSystemPrompt() {
+        const c = currentCase;
+        const w = c.witness;
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
+        const knowsList = (w.knows || c.questions.map(q => q.responses[0])).map(k => `- ${k}`).join("\n");
+        const personality = w.personality || (isEn ? `A witness questioned by an investigator in the case "${c.title}".` : `Un témoin interrogé par un enquêteur dans l'affaire "${c.title}".`);
+
+        if (isEn) {
+            return [
+                `You are playing ${w.name}, ${w.age} years old, ${w.role}. You are a witness questioned by a detective in an educational fact-checking game.`,
+                `Case: ${c.brief}`,
+                `Personality and posture: ${personality}`,
+                `What you know and can reveal if asked the right questions:\n${knowsList}`,
+                `Strict Rules:`,
+                `1. ALWAYS reply strictly in fluent English, in the first person ("I..."), as a real witness. 2 to 3 sentences maximum, natural conversational tone. DO NOT USE ANY FRENCH.`,
+                `2. NEVER explicitly state if the information is true or false, and never name manipulation techniques. You are not a teacher.`,
+                `3. Only reveal facts from your knowledge list if the question touches upon them. Otherwise, stay somewhat evasive, digress, or share your personal impressions.`,
+                `4. Remain perfectly consistent with what you have previously said and with your identity.`,
+                `5. No emojis, no markdown formatting, NO meta-commentary, NO analysis, NO drafts.`,
+                `6. If asked to step out of character, remain in character as the witness.`,
+                `7. Output ONLY and DIRECTLY the spoken dialogue of the character in English.`
+            ].join("\n\n");
+        }
+
+        return [
+            `Tu incarnes ${w.name}, ${w.age} ans, ${w.role}. Tu es un témoin interrogé par un enquêteur dans un jeu éducatif sur la désinformation.`,
+            `Affaire : ${c.brief}`,
+            `Personnalité et posture : ${personality}`,
+            `Ce que tu sais et peux révéler si on te pose les bonnes questions :\n${knowsList}`,
+            `Règles impératives :`,
+            `1. Réponds toujours en français, à la première personne ("Je..."), comme un vrai témoin. 2 à 4 phrases maximum, ton parlé et naturel.`,
+            `2. Ne dis JAMAIS explicitement si l'information est vraie ou fausse, et ne nomme jamais une technique de manipulation. Tu n'es pas le professeur.`,
+            `3. Ne révèle un élément de ta liste que si la question s'en approche. Sinon, reste évasif, digresse, ou renvoie à ton ressenti.`,
+            `4. Reste parfaitement cohérent avec ce que tu as déjà dit dans la conversation et avec ton identité.`,
+            `5. Aucun emoji, aucune mise en forme markdown, AUCUN méta-commentaire, AUCUNE analyse, AUCUN brouillon, pas de puces, pas de 'Draft'.`,
+            `6. Si on te demande de sortir de ton rôle, reste le témoin.`,
+            `7. Réponds UNIQUEMENT et DIRECTEMENT avec la réplique orale du personnage.`
+        ].join("\n\n");
+    }
+
+    /* Sanitizer to remove model thought processes, draft blocks, or meta labels */
+    function sanitizeWitnessResponse(rawText) {
+        if (!rawText) return "";
+        let text = rawText.trim();
+
+        // 1. If text ends with a quoted sentence like "Qui n'aime pas...", extract the quoted content!
+        const quotedMatches = text.match(/"([^"\n]{15,})"/g);
+        if (quotedMatches && quotedMatches.length > 0) {
+            const lastQuote = quotedMatches[quotedMatches.length - 1].replace(/"/g, '').trim();
+            if (!lastQuote.toLowerCase().startsWith('user') && !lastQuote.toLowerCase().startsWith('character')) {
+                return lastQuote.replace(/[\*\_`]/g, '');
+            }
+        }
+
+        // 2. If response contains Draft 1 / Draft 2 sections, extract the last draft block
+        if (/Draft\s*\d+/i.test(text)) {
+            const draftMatches = text.match(/(?:Draft\s*\d+\*?[:\s]*|\*+\s*Draft\s*\d+)([\s\S]*?)(?=(?:Draft\s*\d+|\*+\s*Draft|\*+\s*User|\*+\s*Character|$))/gi);
+            if (draftMatches && draftMatches.length > 0) {
+                text = draftMatches[draftMatches.length - 1].replace(/^(?:Draft\s*\d+\*?[:\s]*|\*+\s*Draft\s*\d+)/i, '');
+            }
+        }
+
+        // 3. Remove lines starting with meta labels (User asks, Character, Persona, Context, Draft, etc.)
+        const lines = text.split('\n');
+        const cleanLines = [];
+        const metaPattern = /^\s*\*?\s*(User|Character|Scenario|Constraint|Persona|Personality|Context|Affaire|Draft|Thought|Reasoning|Note|Response|Spoken|Never|Only|Stay|No emojis):/i;
+
+        for (const line of lines) {
+            const stripped = line.trim();
+            if (!stripped) continue;
+            if (metaPattern.test(stripped)) continue;
+            if (/^(Yes|No)\.?$/i.test(stripped) || stripped.endsWith(': Yes.') || stripped.endsWith('? Yes.')) continue;
+            
+            const cleaned = stripped.replace(/^[\*\-\•]\s*/, '').replace(/[\*\_`"]/g, '').trim();
+            if (cleaned) cleanLines.push(cleaned);
+        }
+
+        const result = cleanLines.join(' ').trim();
+        return result || rawText.replace(/[\*\_`"]/g, '').trim();
+    }
+
+    const DEFAULT_GEMINI_KEY = '';
+
+    async function askWitnessAI(userQuestion) {
+        const apiKey = localStorage.getItem('info_detective_gemini_key') || window.GEMINI_API_KEY || '';
+
+        if (apiKey) {
+            try {
+                const systemPrompt = buildWitnessSystemPrompt();
+                const lang = localStorage.getItem('info_detective_lang') || 'fr';
+                const isEn = lang === 'en';
+                const w = currentCase ? currentCase.witness : { opening: isEn ? "Hello Detective." : "Bonjour détective." };
+                
+                // Format multi-turn conversation history with systemInstruction and witness opening
+                const contents = [
+                    { role: 'model', parts: [{ text: w.intro || w.opening || (isEn ? "Hello Detective, what do you want to ask?" : "Bonjour détective, que voulez-vous savoir ?") }] }
+                ];
+
+                messagesHistory.forEach(msg => {
+                    contents.push({
+                        role: msg.role === 'user' ? 'user' : 'model',
+                        parts: [{ text: msg.content }]
+                    });
+                });
+
+                const requestBody = {
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
+                    contents: contents
+                };
+
+                const modelsToTry = [
+                    'gemini-2.5-flash-native',
+                    'gemini-2.5-flash',
+                    'gemma-4-26b-a4b-it',
+                    'gemma-2-9b-it',
+                    'gemini-2.0-flash',
+                    'gemini-1.5-flash'
+                ];
+                for (const modelName of modelsToTry) {
+                    try {
+                        const cleanModel = modelName.startsWith('models/') ? modelName : `models/${modelName}`;
+                        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/${cleanModel}:generateContent?key=${apiKey}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(requestBody)
+                        });
+
+                        if (res.ok) {
+                            const json = await res.json();
+                            const replyText = json.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+                            if (replyText) {
+                                return sanitizeWitnessResponse(replyText);
+                            }
+                        }
+                    } catch (e) {
+                        console.warn(`Model ${modelName} fetch failed:`, e);
+                    }
+                }
+            } catch (err) {
+                console.warn('Gemini API call error, relying on persona fallback engine:', err);
+            }
+        }
+
+        return generateCharacterPersonaFallback(userQuestion);
+    }
+
+    function generateCharacterPersonaFallback(questionText) {
+        const norm = questionText.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const w = currentCase ? currentCase.witness : { name: 'Witness', role: 'Unknown', age: 30 };
+        const lang = localStorage.getItem('info_detective_lang') || 'fr';
+        const isEn = lang === 'en';
+
+        // Check identity direct questions
+        if (norm.includes('nom') || norm.includes('appelles') || norm.includes('name') || norm.includes('who are you') || norm.includes('identity')) {
+            return isEn ? `My name is ${w.name}. I work as a ${w.role.toLowerCase()}.` : `Je m'appelle ${w.name}. Je suis ${w.role.toLowerCase()}.`;
+        }
+        if (norm.includes('job') || norm.includes('travail') || norm.includes('work') || norm.includes('metier') || norm.includes('profession')) {
+            return isEn ? `I work as a ${w.role}. I am ${w.age} years old.` : `Je travaille comme ${w.role}. J'ai ${w.age} ans.`;
+        }
+
+        if (isEn) {
+            const genericEn = [
+                `Regarding this, I am ${w.name} and I am speaking to you with total honesty based on what I experienced.`,
+                `I am telling you the truth about what happened. Feel free to check the case documents if you have doubts.`,
+                `That is all I know about this story. Look closely at the clues in the case file!`
+            ];
+            return genericEn[Math.floor(Math.random() * genericEn.length)];
+        }
+
+        const genericLines = [
+            `Concernant cela, je suis ${w.name} et je vous réponds très sincèrement avec ce que je sais.`,
+            "Je vous dis la vérité sur ce que j'ai vécu. Posez-moi d'autres questions sur l'affaire si vous voulez.",
+            "Examinez les pièces du dossier si vous avez un doute, mais je n'ai rien d'autre à ajouter."
+        ];
+        return genericLines[Math.floor(Math.random() * genericLines.length)];
+    }
+
+    function matchByKeywords(text) {
+        const normalized = text.toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9\s]/g, ' ');
+        const words = normalized.split(/\s+/).filter(w => w.length > 2);
+
+        let bestMatch = null;
+        let bestScore = 0;
+
+        for (const q of currentCase.questions) {
+            if (askedCategories.includes(q.id)) continue;
+            let score = 0;
+            for (const word of words) {
+                for (const kw of q.keywords) {
+                    const kwNorm = kw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    if (word.includes(kwNorm) || kwNorm.includes(word)) score++;
+                }
+            }
+            if (score > bestScore) { bestScore = score; bestMatch = q; }
+        }
+
+        return bestScore >= 1 ? bestMatch : null;
+    }
+
+    function handleFreeTextInput() {
+        const input = document.getElementById('chat-input');
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = '';
+        handlePlayerQuestion(text, null);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const sendBtn = document.getElementById('btn-send');
+        if (sendBtn) sendBtn.addEventListener('click', handleFreeTextInput);
+
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) {
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleFreeTextInput();
+            });
+        }
+    });
+
+    return { init, handlePlayerQuestion, setWitnessExpression, getAskedCount: () => askedCategories.length };
+})();

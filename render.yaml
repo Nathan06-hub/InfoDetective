@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: infodetective-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python seed.py && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: MOCK_DEMO_MODE
+        value: "true"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: infodetective-db
+          property: connectionString
+
+databases:
+  - name: infodetective-db
+    databaseName: infodetective
+    user: infodetective_user
