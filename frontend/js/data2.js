@@ -5,7 +5,7 @@ CASES.push(
     {
         id: 'case-6', number: 6, title: 'OGM : La Photo qui a Tout Changé',
         difficulty: 2, isTrue: true, isTrap: true,
-        brief: 'Un post viral montre une photo de tomates énormes et difformes avec le texte : « Voilà ce que les OGM font à nos aliments  BOYCOTTEZ ! ». La photo semble fake tellement les tomates sont bizarres. Mais le phénomène (fasciation) est en réalité naturel et documenté scientifiquement...',
+        brief: 'Une publication virale montre la photo de tomates géantes et difformes accompagnée d\'une alerte : « Voilà ce que les OGM font à nos aliments ! BOYCOTTEZ les supermarchés ! ». L\'aspect inhabituel des fruits suscite une vague d\'indignation sur les réseaux sociaux.',
         witness: {
             name: 'Mariam Konaté', age: 42, role: 'Vendeuse au marché',
             avatar: 'assets/witnesses/mariam.webp', initials: 'MK', color: '#66BB6A',

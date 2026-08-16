@@ -56,7 +56,7 @@ const CASES = [
     {
         id: 'case-1', number: 1, title: 'Alerte Couvre-feu à Ouagadougou',
         difficulty: 1, isTrue: false,
-        brief: 'Sur Facebook, une page nommée "Minestère de la sécurité" a publié la capture d\'un communiqué officiel estampillé Primature du Burkina Faso déclarant un couvre-feu immédiat de 17h à 4h du matin. Les marchés ferment précipitamment, mais une faute d\'orthographe sur le nom de la page attire votre attention.',
+        brief: 'Sur les réseaux sociaux, la capture d\'un prétendu communiqué officiel de la Primature du Burkina Faso annonce l\'instauration d\'un couvre-feu immédiat de 17h à 4h du matin. Dans les rues et sur les marchés de Ouagadougou, la panique s\'installe et les commerces ferment précipitamment. Info authentique ou fausse alerte ?',
         witness: {
             name: 'Moussa Kaboré', age: 36, role: 'Commerçant à Ouagadougou',
             avatar: 'assets/witnesses/serge.webp', initials: 'MK', color: '#E8A33D',

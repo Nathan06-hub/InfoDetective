@@ -580,7 +580,8 @@ const Chat = (() => {
             return;
         }
 
-        const imgSrc = visualEv.imageUrl || visualEv.content_url || visualEv.content;
+        const rawSrc = visualEv.imageUrl || visualEv.content_url || visualEv.content;
+        const imgSrc = (rawSrc.startsWith('http') || rawSrc.startsWith('/')) ? rawSrc : '/' + rawSrc;
         const lang = localStorage.getItem('info_detective_lang') || 'fr';
         const isEn = lang === 'en';
         const badgeLabel = isEn ? '📎 RECEIVED ATTACHMENT' : '📎 PIÈCE JOINTE REÇUE';
@@ -590,7 +591,7 @@ const Chat = (() => {
         container.innerHTML = `
             <div class="comic-attachment-card" id="btn-inspect-attachment" role="button" tabindex="0" title="${ctaLabel}">
                 <div class="attachment-thumbnail-wrap">
-                    <img src="${imgSrc}" alt="${visualEv.title}" class="attachment-thumb-img" />
+                    <img src="${imgSrc}" alt="${visualEv.title}" class="attachment-thumb-img" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src='/static'+this.getAttribute('src');}" />
                     <span class="attachment-zoom-icon">🔍</span>
                 </div>
                 <div class="attachment-info">
@@ -613,7 +614,20 @@ const Chat = (() => {
         const titleEl = document.getElementById('lightbox-title');
         if (!modal || !img) return;
 
-        img.src = imgSrc;
+        const normalized = (imgSrc.startsWith('http') || imgSrc.startsWith('/')) ? imgSrc : '/' + imgSrc;
+        img.onerror = function() {
+            if (!this.dataset.fallbackTried) {
+                this.dataset.fallbackTried = "1";
+                if (normalized.startsWith('/images/')) {
+                    this.src = '/static' + normalized;
+                } else if (normalized.startsWith('/static/images/')) {
+                    this.src = normalized.replace('/static', '');
+                } else {
+                    this.src = '/static/images/' + normalized.split('/').pop();
+                }
+            }
+        };
+        img.src = normalized;
         if (titleEl && title) titleEl.textContent = title;
         modal.hidden = false;
         modal.style.display = 'flex';

@@ -36,6 +36,8 @@ if os.path.exists("app/static/js"):
     app.mount("/js", StaticFiles(directory="app/static/js"), name="js")
 if os.path.exists("app/static/assets"):
     app.mount("/assets", StaticFiles(directory="app/static/assets"), name="assets")
+if os.path.exists("app/static/images"):
+    app.mount("/images", StaticFiles(directory="app/static/images"), name="images")
 if os.path.exists("app/static/Personnages"):
     app.mount("/Personnages", StaticFiles(directory="app/static/Personnages"), name="Personnages")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")

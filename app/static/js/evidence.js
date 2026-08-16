@@ -93,9 +93,10 @@ const Evidence = (() => {
         document.getElementById('modal-evidence-type').innerHTML = `<span class="modal-type-icon" style="display:-webkit-inline-box;width:18px;height:18px;vertical-align:middle;margin-right:6px;">${getEvidenceIcon(ev)}</span> <span style="vertical-align:middle;">${typeLabel}</span>`;
         document.getElementById('modal-evidence-title').textContent = ev.title;
         
-        const imgSrc = ev.imageUrl || ev.content_url || (ev.content && (ev.content.startsWith('http') || ev.content.endsWith('.png') || ev.content.endsWith('.jpg') || ev.content.startsWith('/static/images/') || ev.content.startsWith('images/')) ? ev.content : null);
-        if (imgSrc) {
-            document.getElementById('modal-evidence-image').innerHTML = `<div style="text-align:center; padding:8px 0;"><img src="${imgSrc}" alt="${ev.title}" style="max-width:100%; max-height:380px; border-radius:8px; object-fit:contain; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border:1px solid var(--border-color); display:block; margin:0 auto; cursor:pointer;" onclick="if(typeof Chat!=='undefined'&&Chat.openEvidenceLightbox) Chat.openEvidenceLightbox('${imgSrc}', '${(ev.title||'').replace(/'/g, "\\'")}')" title="Cliquer pour agrandir en plein écran" /></div>`;
+        const rawSrc = ev.imageUrl || ev.content_url || (ev.content && (ev.content.startsWith('http') || ev.content.endsWith('.png') || ev.content.endsWith('.jpg') || ev.content.includes('images/')) ? ev.content : null);
+        if (rawSrc) {
+            const imgSrc = (rawSrc.startsWith('http') || rawSrc.startsWith('/')) ? rawSrc : '/' + rawSrc;
+            document.getElementById('modal-evidence-image').innerHTML = `<div style="text-align:center; padding:8px 0;"><img src="${imgSrc}" alt="${ev.title}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='/static'+this.getAttribute('src');}" style="max-width:100%; max-height:380px; border-radius:8px; object-fit:contain; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border:1px solid var(--border-color); display:block; margin:0 auto; cursor:pointer;" onclick="if(typeof Chat!=='undefined'&&Chat.openEvidenceLightbox) Chat.openEvidenceLightbox('${imgSrc}', '${(ev.title||'').replace(/'/g, "\\'")}')" title="Cliquer pour agrandir en plein écran" /></div>`;
         } else {
             document.getElementById('modal-evidence-image').innerHTML = (ev.content || '').replace(/\n/g, '<br>');
         }

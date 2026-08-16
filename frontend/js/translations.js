@@ -210,7 +210,7 @@ const CASE_TRANSLATIONS = {
     'en': {
         'case-1': {
             title: 'Ouagadougou Curfew Alert',
-            brief: 'On Facebook, a page named "Minestère de la sécurité" posted a government press release claiming an immediate curfew from 5 PM to 4 AM in Ouagadougou. Markets close hastily, but a spelling mistake on the page name catches your eye.',
+            brief: 'A screenshot of an alleged official press release from the Prime Minister\'s Office of Burkina Faso is circulating on social media, announcing an immediate curfew from 5 PM to 4 AM. In the streets and markets of Ouagadougou, panic spreads and businesses rush to close. Verified news or manipulation?',
             witness: {
                 role: 'Merchant in Ouagadougou',
                 intro: 'Hello Detective! Everyone is panicking, they announced a 5 PM curfew on Facebook! We have to close our shops right away!'
@@ -316,7 +316,7 @@ const CASE_TRANSLATIONS = {
         },
         'case-6': {
             title: 'GMOs: The Photo That Changed Everything',
-            brief: 'A viral post displays strange fused tomatoes captioned: « This is what GMOs do to our food! BOYCOTT! ». The photo seems fake, but the botanical phenomenon (fasciation) is completely natural and scientifically documented.',
+            brief: 'A viral post displays strange fused tomatoes captioned: « This is what GMOs do to our food! BOYCOTT! ». The bizarre look of the fruit sparks widespread concern online.',
             witness: {
                 role: 'Market vendor',
                 intro: 'I took the photo of those weird tomatoes at my market stall! They are 100% real. But the text about GMOs was not written by me...'
